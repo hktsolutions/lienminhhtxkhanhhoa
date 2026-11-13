@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ĐĂNG KÝ HỒ SƠ HỘI VIÊN</title>
+    <title>ĐĂNG KÝ HỒ SƠ THÀNH VIÊN</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background-color: #f8fafc; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
@@ -99,13 +99,13 @@
 <div class="max-w-6xl mx-auto px-4 md:px-0" id="main-form-wrapper">
     
     <div class="mb-8 border-b border-gray-200 pb-5 text-center md:text-left">
-        <h1 class="text-2xl md:text-3xl font-extrabold text-blue-700 uppercase tracking-wide">Đăng ký hồ sơ hội viên</h1>
-        <p class="text-gray-500 mt-2 text-sm font-medium uppercase">Hội doanh nhân trẻ Khánh Hòa</p>
+        <h1 class="text-2xl md:text-3xl font-extrabold text-blue-700 uppercase tracking-wide">Đăng ký hồ sơ thành viên</h1>
+        <p class="text-gray-500 mt-2 text-sm font-medium uppercase">Liên minh Hợp tác xã tỉnh Khánh Hòa</p>
     </div>
 
     <div id="page-1" class="block-container !mb-8">
         <div class="block-header bg-gradient-to-r from-blue-50 to-white border-b-2 border-blue-200">
-            <h2 class="text-lg font-bold text-blue-800">1. THÔNG TIN CÁ NHÂN</h2>
+            <h2 class="text-lg font-bold text-blue-800">1. THÔNG TIN NGƯỜI ĐẠI DIỆN</h2>
             <span class="text-xs font-bold bg-blue-100 text-blue-600 px-3 py-1 rounded-full">Bước 1/2</span>
         </div>
         
@@ -192,18 +192,18 @@
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="form-label">Vai trò trong hội <span class="required-mark">*</span></label>
+                        <label class="form-label">Vai trò trong liên minh <span class="required-mark">*</span></label>
                         <select id="mem-role" class="form-input">
                             <option value="">-- Chọn vai trò --</option>
                             <option value="Chủ tịch">Chủ tịch</option>
                             <option value="Phó Chủ tịch">Phó Chủ tịch</option>
                             <option value="Ủy viên BCH">Ủy viên BCH</option>
-                            <option value="Hội viên">Hội viên</option>
+                            <option value="Hội viên">Thành viên</option>
                         </select>
                     </div>
                     <div>
                         <label class="form-label">Vai trò khác</label>
-                        <input type="text" id="mem-other-role" class="form-input" placeholder="VD: Chủ nhiệm CLB...">
+                        <input type="text" id="mem-other-role" class="form-input" placeholder="VD: Trưởng ban kiểm soát...">
                     </div>
                 </div>
 
@@ -227,7 +227,7 @@
                 <div>
                     <label class="flex justify-between items-end form-label"><span>Từ khóa tìm kiếm <span class="text-xs text-gray-500 font-normal ml-1">(lĩnh vực chuyên môn cá nhân)</span></span> <span id="cnt-mem-kw" class="text-xs text-gray-400 font-normal">0/10</span></label>
                     <div class="form-container flex flex-col min-h-[48px]" style="padding:0.5rem">
-                        <input type="text" id="input-mem-kw" oninput="handleMemKeywordInput(this)" class="w-full bg-transparent text-sm outline-none text-gray-800 p-1 mb-1 placeholder-gray-400" placeholder="Ngăn cách bởi dấu (,) hoặc (;). Ví dụ: tư vấn chuyển đổi số; đào tạo AI; ...">
+                        <input type="text" id="input-mem-kw" oninput="handleMemKeywordInput(this)" class="w-full bg-transparent text-sm outline-none text-gray-800 p-1 mb-1 placeholder-gray-400" placeholder="Ngăn cách bởi dấu (,) hoặc (;). Ví dụ: nông nghiệp hữu cơ; chế biến nông sản; ...">
                         <div id="mem-kw-container" class="flex flex-wrap gap-2"></div>
                     </div>
                 </div>
@@ -244,7 +244,7 @@
 
         <div class="p-6 bg-gray-50 border-t border-gray-200 text-right">
             <button id="btn-next-page" onclick="nextPage()" class="bg-gray-800 hover:bg-black text-white px-8 py-3 rounded-lg font-bold shadow-md transition-all text-sm tracking-wide">
-                TIẾP TỤC: THÔNG TIN DOANH NGHIỆP ➔
+                TIẾP TỤC: THÔNG TIN HỢP TÁC XÃ ➔
             </button>
         </div>
     </div>
@@ -309,7 +309,7 @@
                 btnNext.innerText = 'LƯU ẢNH ĐỂ TIẾP TỤC';
             } else {
                 btnNext.classList.remove('opacity-50', 'pointer-events-none');
-                btnNext.innerHTML = 'TIẾP TỤC: THÔNG TIN DOANH NGHIỆP ➔';
+                btnNext.innerHTML = 'TIẾP TỤC: THÔNG TIN HỢP TÁC XÃ ➔';
             }
         }
 
