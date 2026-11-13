@@ -200,8 +200,13 @@
                         <label class="form-label">Vai trò trong liên minh <span class="required-mark">*</span></label>
                         <select id="mem-role" class="form-input">
                             <option value="">-- Chọn vai trò --</option>
-                            <option value="Chủ tịch hội đồng">Chủ tịch hội đồng</option>
-                            <option value="Phó Chủ tịch hội đồng">Phó Chủ tịch hội đồng</option>
+                            <option value="Chủ tịch Liên minh">Chủ tịch Liên minh</option>
+                            <option value="Phó Chủ tịch Liên minh">Phó Chủ tịch Liên minh</option>
+                            <option value="Ủy viên Ban Thường vụ">Ủy viên Ban Thường vụ</option>
+                            <option value="Ủy viên Ban Chấp hành">Ủy viên Ban Chấp hành</option>
+                            <option value="Chủ nhiệm Ủy ban Kiểm tra">Chủ nhiệm Ủy ban Kiểm tra</option>
+                            <option value="Ủy viên Ủy ban Kiểm tra">Ủy viên Ủy ban Kiểm tra</option>
+                            <option value="Hội viên">Hội viên (không giữ chức danh)</option>
                         </select>
                     </div>
                     <div>
@@ -1019,14 +1024,14 @@
 
                                 <div>
                                     <div class="flex justify-between items-end mb-1.5" id="ind-header-${bId}">
-                                        <label class="form-label" style="margin-bottom:0">Lĩnh vực hoạt động <span class="required-mark">*</span></label>
+                                        <label class="form-label" style="margin-bottom:0">Ngành, nghề sản xuất, kinh doanh <span class="required-mark">*</span></label>
                                         <button id="btn-ind-${bId}" onclick="loadGlobalIndustries('${bId}')" type="button" class="bg-blue-600 hover:bg-blue-700 text-white flex items-center text-xs font-semibold px-3 py-1.5 rounded-md transition-colors shadow-sm">
                                             Tải danh sách
                                         </button>
                                     </div>
                                     <div class="form-container overflow-hidden flex flex-col" style="padding:0">
                                         <div class="p-2 border-b border-gray-200 bg-white" id="ind-search-box-${bId}">
-                                            <input type="text" id="search-ind-${bId}" disabled oninput="searchInd('${bId}', this.value)" placeholder="Tìm kiếm lĩnh vực..." class="w-full bg-gray-50 p-2 rounded text-sm outline-none disabled:opacity-50">
+                                            <input type="text" id="search-ind-${bId}" disabled oninput="searchInd('${bId}', this.value)" placeholder="Tìm kiếm ngành, nghề..." class="w-full bg-gray-50 p-2 rounded text-sm outline-none disabled:opacity-50">
                                         </div>
                                         <div id="ind-list-${bId}" class="h-40 overflow-y-auto p-2 space-y-1 text-sm bg-white">
                                             <div class="text-center text-gray-400 text-sm mt-12">Vui lòng bấm "Tải danh sách" bên trên.</div>
@@ -1357,7 +1362,7 @@
         buttons.forEach(btn => btn.classList.add('hidden'));
 
         document.getElementById(`ind-search-box-${bId}`).style.display = 'none';
-        document.getElementById(`ind-list-${bId}`).innerHTML = '<div class="text-sm p-4 text-center text-black font-bold bg-gray-100 rounded border border-gray-200">Lĩnh vực hoạt động đã được chọn.</div>';
+        document.getElementById(`ind-list-${bId}`).innerHTML = '<div class="text-sm p-4 text-center text-black font-bold bg-gray-100 rounded border border-gray-200">Ngành, nghề sản xuất, kinh doanh đã được chọn.</div>';
     }
 
 
@@ -1387,7 +1392,7 @@
         container.innerHTML = '';
         
         if (globalIndustries.length === 0) {
-            container.innerHTML = '<div class="text-center text-gray-400 text-sm mt-12">Không tìm thấy lĩnh vực phù hợp.</div>';
+            container.innerHTML = '<div class="text-center text-gray-400 text-sm mt-12">Không tìm thấy ngành, nghề phù hợp.</div>';
             return;
         }
 
@@ -1541,10 +1546,13 @@
         });
     }
 
+    // Nhãn khách hàng: server R2 dùng nhãn này để chọn đúng bucket và domain ảnh
+    const TENANT = "htx";
+
     async function pushToR2(file, folderName = "Company") {
         const resUrl = await fetch("https://binn8nauto.io.vn/webhook/url-upload-form", {
             method: "POST", headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ fileName: file.name, contentType: file.type, folder: folderName })
+            body: JSON.stringify({ fileName: file.name, contentType: file.type, folder: folderName, tenant: TENANT })
         });
         if(!resUrl.ok) throw new Error("Lỗi lấy URL upload");
         let data = await resUrl.json();
@@ -1935,7 +1943,7 @@
                 if(phone.startsWith('0')) phone = '84' + phone.substring(1);
 
                 const indIds = state.selectedInd || [];
-                if(indIds.length === 0) return showModal(`Chọn ít nhất 1 lĩnh vực hoạt động cho HỢP TÁC XÃ ${cIndex}`);
+                if(indIds.length === 0) return showModal(`Chọn ít nhất 1 ngành, nghề sản xuất, kinh doanh cho HỢP TÁC XÃ ${cIndex}`);
 
                 const socArr = [];
                 document.querySelectorAll(`#soc-list-${bId} .soc-row`).forEach(row => {
