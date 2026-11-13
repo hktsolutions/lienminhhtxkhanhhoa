@@ -8,6 +8,11 @@
     <style>
         body { background-color: #f8fafc; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
         
+        /* An nhap link anh: chi cho chon file */
+        #btn-mem-ava-url, #mem-ava-link-wrap,
+        [id^="btn-logo-url-"], [id^="logo-link-wrap-"],
+        [id^="btn-gal-url-"], [id^="gal-link-wrap-"] { display: none !important; }
+
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
@@ -89,7 +94,7 @@
     <div class="bg-white rounded-xl shadow-2xl p-6 max-w-sm w-full mx-4 transform scale-95 transition-transform duration-200" id="modal-content">
         <h3 class="text-lg font-extrabold text-gray-900 mb-3 flex items-center gap-2">
             <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            Thông báo hệ thống
+            Thông báo
         </h3>
         <p class="text-gray-700 mb-6 font-medium leading-relaxed" id="modal-message"></p>
         <button onclick="closeModal()" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2.5 rounded-lg transition-colors shadow-sm text-sm uppercase tracking-wide">Đóng</button>
@@ -117,8 +122,8 @@
                         <input type="text" id="mem-fullname" name="name" autocomplete="name" class="form-input" placeholder="VD: Nguyễn Hiếu">
                     </div>
                     <div>
-                        <label class="form-label">Tên thương hiệu cá nhân</label>
-                        <input type="text" id="mem-alt-name" class="form-input" placeholder="VD: Mr. Hiếu">
+                        <label class="form-label">Tên thường gọi</label>
+                        <input type="text" id="mem-alt-name" class="form-input" placeholder="VD: Anh Hiếu">
                     </div>
                 </div>
 
@@ -155,25 +160,25 @@
                 
                 <div>
                     <label class="form-label flex justify-between items-end">
-                        <span>Thông tin giới thiệu chi tiết</span>
+                        <span>Giới thiệu bản thân</span>
                         <span id="mem-bio-counter" class="text-xs text-gray-400 font-normal">0/500</span>
                     </label>
-                    <textarea id="mem-bio" maxlength="500" onkeydown="if(event.key === 'Enter') return false;" oninput="cleanNewLines(this, 'mem-bio-counter', 500)" rows="5" class="form-input" placeholder="Giới thiệu bản thân, kinh nghiệm công tác (Không xuống dòng)..."></textarea>
+                    <textarea id="mem-bio" maxlength="500" onkeydown="if(event.key === 'Enter') return false;" oninput="cleanNewLines(this, 'mem-bio-counter', 500)" rows="5" class="form-input" placeholder="Viết vài dòng về anh/chị và công việc hiện tại (không xuống dòng)..."></textarea>
                 </div>
             </div>
 
             <div class="space-y-5">
                 
                 <div>
-                    <label class="form-label flex items-end">Ảnh đại diện <span class="text-xs text-gray-400 font-normal ml-1">(Vui lòng dùng ảnh tỉ lệ 1:1)</span></label>
+                    <label class="form-label flex items-end">Ảnh đại diện <span class="text-xs text-gray-400 font-normal ml-1">(Nên dùng ảnh vuông)</span></label>
                     <div class="form-container flex flex-col gap-3">
                         <div class="flex items-center justify-between gap-2">
                             <input type="file" id="file-mem-ava" accept="image/*" class="hidden" onchange="handleMemAvaSelect(this)">
                             <div class="flex gap-1 items-center flex-wrap">
-                                <button id="btn-mem-ava-file" onclick="document.getElementById('file-mem-ava').click()" class="bg-gray-100 border border-gray-300 text-sm px-3 py-1.5 rounded-md hover:bg-gray-200 font-semibold text-gray-700 transition-colors shadow-sm">Chọn File</button>
+                                <button id="btn-mem-ava-file" onclick="document.getElementById('file-mem-ava').click()" class="bg-gray-100 border border-gray-300 text-sm px-3 py-1.5 rounded-md hover:bg-gray-200 font-semibold text-gray-700 transition-colors shadow-sm">Tải lên</button>
                                 <button id="btn-mem-ava-url" onclick="toggleMemAvaLink()" class="bg-white border border-gray-300 text-sm px-3 py-1.5 rounded-md hover:bg-gray-50 font-semibold text-gray-700 transition-colors shadow-sm">Nhập Link</button>
                                 <button id="btn-mem-ava-cancel" onclick="cancelMemAva()" class="hidden bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm px-4 py-1.5 rounded-md font-bold transition-colors shadow-sm">Hủy</button>
-                                <button id="btn-mem-ava-upload" onclick="uploadMemAva()" class="hidden bg-gray-800 hover:bg-black text-white text-sm px-4 py-1.5 rounded-md font-bold transition-colors shadow-sm">Lưu</button>
+                                <button id="btn-mem-ava-upload" onclick="uploadMemAva()" class="hidden bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-1.5 rounded-md font-bold transition-colors shadow-sm">Lưu</button>
                             </div>
                             <div class="flex items-center gap-2 text-right">
                                 <div id="mem-ava-status" class="text-xs font-medium text-gray-500 flex items-center justify-end">Chưa có ảnh</div>
@@ -195,28 +200,26 @@
                         <label class="form-label">Vai trò trong liên minh <span class="required-mark">*</span></label>
                         <select id="mem-role" class="form-input">
                             <option value="">-- Chọn vai trò --</option>
-                            <option value="Chủ tịch">Chủ tịch</option>
-                            <option value="Phó Chủ tịch">Phó Chủ tịch</option>
-                            <option value="Ủy viên BCH">Ủy viên BCH</option>
-                            <option value="Hội viên">Thành viên</option>
+                            <option value="Chủ tịch hội đồng">Chủ tịch hội đồng</option>
+                            <option value="Phó Chủ tịch hội đồng">Phó Chủ tịch hội đồng</option>
                         </select>
                     </div>
                     <div>
                         <label class="form-label">Vai trò khác</label>
-                        <input type="text" id="mem-other-role" class="form-input" placeholder="VD: Trưởng ban kiểm soát...">
+                        <input type="text" id="mem-other-role" class="form-input" placeholder="VD: Tổ trưởng tổ hợp tác...">
                     </div>
                 </div>
 
                 <div>
                     <div class="flex justify-between items-end mb-1.5">
-                        <label class="form-label !mb-0">Chuyên môn <span class="required-mark">*</span></label>
+                        <label class="form-label !mb-0">Kinh nghiệm chuyên môn <span class="required-mark">*</span></label>
                         <button id="btn-mem-exp" onclick="loadGlobalExpertise()" type="button" class="bg-blue-600 hover:bg-blue-700 text-white flex items-center text-xs font-semibold px-3 py-1.5 rounded-md transition-colors shadow-sm">
                             Tải danh sách
                         </button>
                     </div>
                     <div class="form-container overflow-hidden flex flex-col !p-0 border border-gray-300">
                         <div class="p-2 border-b border-gray-200 bg-white">
-                            <input type="text" id="search-mem-exp" disabled oninput="searchExp(this.value)" placeholder="Tìm kiếm chuyên môn..." class="w-full bg-gray-50 p-2 rounded text-sm outline-none disabled:opacity-50">
+                            <input type="text" id="search-mem-exp" disabled oninput="searchExp(this.value)" placeholder="Tìm kiếm kinh nghiệm chuyên môn..." class="w-full bg-gray-50 p-2 rounded text-sm outline-none disabled:opacity-50">
                         </div>
                         <div id="mem-exp-list" class="h-40 overflow-y-auto p-2 space-y-1 text-sm bg-white">
                             <div class="text-center text-gray-400 text-sm mt-12">Vui lòng bấm "Tải danh sách" bên trên.</div>
@@ -225,18 +228,18 @@
                 </div>
 
                 <div>
-                    <label class="flex justify-between items-end form-label"><span>Từ khóa tìm kiếm <span class="text-xs text-gray-500 font-normal ml-1">(lĩnh vực chuyên môn cá nhân)</span></span> <span id="cnt-mem-kw" class="text-xs text-gray-400 font-normal">0/10</span></label>
+                    <label class="flex justify-between items-end form-label"><span>Từ khóa về công việc <span class="text-xs text-gray-500 font-normal ml-1">(dùng để người khác tìm thấy anh/chị)</span></span> <span id="cnt-mem-kw" class="text-xs text-gray-400 font-normal">0/10</span></label>
                     <div class="form-container flex flex-col min-h-[48px]" style="padding:0.5rem">
-                        <input type="text" id="input-mem-kw" oninput="handleMemKeywordInput(this)" class="w-full bg-transparent text-sm outline-none text-gray-800 p-1 mb-1 placeholder-gray-400" placeholder="Ngăn cách bởi dấu (,) hoặc (;). Ví dụ: nông nghiệp hữu cơ; chế biến nông sản; ...">
+                        <input type="text" id="input-mem-kw" oninput="handleMemKeywordInput(this)" class="w-full bg-transparent text-sm outline-none text-gray-800 p-1 mb-1 placeholder-gray-400" placeholder="Gõ từ khóa, ngăn cách bằng dấu phẩy (,). VD: trồng rau sạch, chế biến nông sản">
                         <div id="mem-kw-container" class="flex flex-wrap gap-2"></div>
                     </div>
                 </div>
 
                 <div>
-                    <label class="form-label">Kênh xã hội cá nhân</label>
+                    <label class="form-label">Trang mạng xã hội cá nhân</label>
                     <div class="form-container !p-2">
                         <div id="mem-soc-list"></div>
-                        <button id="btn-soc-mem" onclick="addMemSocialRow()" class="mt-2 text-blue-600 hover:text-blue-800 text-sm font-bold flex items-center transition-colors px-2">+ Thêm liên kết</button>
+                        <button id="btn-soc-mem" onclick="addMemSocialRow()" class="mt-2 text-blue-600 hover:text-blue-800 text-sm font-bold flex items-center transition-colors px-2">+ Thêm trang mạng xã hội</button>
                     </div>
                 </div>
             </div>
@@ -256,16 +259,16 @@
         <div class="flex justify-center mt-6 hidden" id="add-company-btn-container">
             <button type="button" onclick="addCompanyBlock()" class="flex items-center text-blue-600 font-bold bg-blue-50 hover:bg-blue-100 border border-blue-200 px-5 py-2.5 rounded-lg transition-colors shadow-sm text-sm">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                THÊM DOANH NGHIỆP KHÁC
+                Chọn nếu anh/chị đang vận hành một hợp tác xã khác
             </button>
         </div>
 
         <div class="mt-12 border-t border-gray-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <button id="btn-prev-page" onclick="prevPage()" class="text-gray-600 hover:text-black font-bold px-6 py-3 transition-colors underline">
-                🠔 Quay lại thông tin cá nhân
+                🠔 Quay lại thông tin người đại diện
             </button>
             <button id="btn-submit" onclick="submitForm()" class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-3.5 rounded-lg font-bold shadow-lg shadow-blue-600/30 transition-all text-sm tracking-wide w-full md:w-auto">
-                HOÀN TẤT & GỬI HỒ SƠ
+                GỬI HỒ SƠ
             </button>
         </div>
     </div>
@@ -322,7 +325,7 @@
             } else {
                 btnSubmit.disabled = false;
                 btnSubmit.classList.remove('opacity-50', 'cursor-not-allowed');
-                btnSubmit.innerText = 'HOÀN TẤT & GỬI HỒ SƠ';
+                btnSubmit.innerText = 'GỬI HỒ SƠ';
             }
         }
     }
@@ -344,7 +347,7 @@
     // ==========================================
     // HÀM HIỂN THỊ MODAL & KHÓA FORM KHI XONG
     // ==========================================
-    function showModal(message, title = "Thông báo hệ thống") {
+    function showModal(message, title = "Thông báo") {
         document.getElementById('modal-message').innerHTML = message;
         const modal = document.getElementById('custom-modal');
         modal.classList.remove('hidden');
@@ -414,11 +417,11 @@
         const birth = document.getElementById('mem-birth').value;
 
         if(!name || !phone || !email || !gender || !role || !birth) {
-            return showModal("Vui lòng điền đầy đủ <b>Họ tên, Ngày sinh, Số điện thoại, Email, Giới tính và Vai trò</b> trước khi tiếp tục.");
+            return showModal("Anh/chị điền đủ <b>họ tên, ngày sinh, số điện thoại, email, giới tính và vai trò</b> rồi bấm tiếp tục.");
         }
 
         if(selectedMemExp.size === 0) {
-            return showModal("Vui lòng tải danh sách và chọn ít nhất 1 <b>Chuyên môn</b> của bạn.");
+            return showModal("Anh/chị bấm nút Tải danh sách rồi chọn ít nhất 1 <b>kinh nghiệm chuyên môn</b>.");
         }
 
         document.getElementById('page-1').classList.add('hidden');
@@ -451,7 +454,7 @@
         const originalBtnText = btnExp.innerHTML;
         btnExp.innerText = "Đang tải...";
         btnExp.disabled = true;
-        container.innerHTML = '<div class="text-center text-gray-500 text-sm mt-12 animate-pulse">Đang lấy dữ liệu từ hệ thống...</div>';
+        container.innerHTML = '<div class="text-center text-gray-500 text-sm mt-12 animate-pulse">Đang tải, anh/chị chờ một chút...</div>';
         
         try {
             const rawData = await fetchFieldData('expertise');
@@ -555,7 +558,7 @@
             let kw = val.replace(/[;,]/g, '').trim();
             
             if (kw.length > 35) {
-                showModal("Mỗi từ khóa không được vượt quá 35 ký tự.");
+                showModal("Mỗi từ khóa chỉ được tối đa 35 chữ.");
                 inputEl.value = '';
                 return;
             }
@@ -567,7 +570,7 @@
             }
             inputEl.value = '';
         }
-        inputEl.placeholder = memKeywords.length >= 10 ? "Đã đạt tối đa 10 tags" : "Ngăn cách bởi dấu (,) hoặc (;). Ví dụ: tư vấn chuyển đổi số; đào tạo AI; ...";
+        inputEl.placeholder = memKeywords.length >= 10 ? "Đã đủ 10 từ khóa" : "Gõ từ khóa, ngăn cách bằng dấu phẩy (,). VD: trồng rau sạch, chế biến nông sản";
         inputEl.disabled = memKeywords.length >= 10;
     }
     function renderMemKeywords() {
@@ -583,7 +586,7 @@
         renderMemKeywords();
         const inputEl = document.getElementById('input-mem-kw');
         inputEl.disabled = false;
-        inputEl.placeholder = "Ngăn cách bởi dấu (,) hoặc (;). Ví dụ: tư vấn chuyển đổi số; đào tạo AI; ...";
+        inputEl.placeholder = "Gõ từ khóa, ngăn cách bằng dấu phẩy (,). VD: trồng rau sạch, chế biến nông sản";
         saveDraft();
     }
 
@@ -619,7 +622,7 @@
         div.id = rowId;
         div.className = 'flex gap-2 items-center soc-row p-1.5 border border-gray-200 rounded-lg bg-gray-50/50 mb-2';
         div.innerHTML = `
-            <input type="text" maxlength="25" value="${presetType}" placeholder="Loại kênh (FB, YT...)" class="w-1/3 rounded-md border border-gray-300 px-3 py-2 text-sm bg-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 soc-type">
+            <input type="text" maxlength="25" value="${presetType}" placeholder="Tên (Facebook, Zalo...)" class="w-1/3 rounded-md border border-gray-300 px-3 py-2 text-sm bg-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 soc-type">
             <input type="url" placeholder="https://..." class="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm bg-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 soc-url">
             <button type="button" onclick="this.closest('.soc-row').remove(); updateSocCount('mem'); saveDraft();" class="text-gray-400 hover:text-red-600 font-bold px-2 text-xl leading-none" title="Xóa">&times;</button>
         `;
@@ -682,7 +685,7 @@
             checkPendingUploads();
             saveDraft();
         } else {
-            status.innerHTML = `<span class="text-red-600 font-bold">Link lỗi</span>`;
+            status.innerHTML = `<span class="text-red-600 font-bold">Link không đúng</span>`;
         }
     }
 
@@ -707,7 +710,7 @@
 
             checkPendingUploads();
         } catch (e) {
-            status.innerHTML = `<span class="text-red-600 font-bold">Lỗi xử lý</span>`;
+            status.innerHTML = `<span class="text-red-600 font-bold">Có lỗi, thử lại</span>`;
         }
     }
 
@@ -733,7 +736,7 @@
             btnCopy.classList.remove('hidden');
             btnCopy.setAttribute('onclick', `copyUrl('${uploadedUrl}')`);
         } catch(e) {
-            status.innerHTML = `<span class="text-red-600 font-bold">Lỗi R2</span>`;
+            status.innerHTML = `<span class="text-red-600 font-bold">Lưu không được, thử lại</span>`;
         } finally {
             btnUp.disabled = false; btnUp.innerText = "Lưu";
             checkPendingUploads();
@@ -795,7 +798,7 @@
         const originalBtnText = btnInd.innerHTML;
         btnInd.innerText = "Đang tải...";
         btnInd.disabled = true;
-        container.innerHTML = '<div class="text-center text-gray-500 text-sm mt-12 animate-pulse">Đang lấy dữ liệu từ hệ thống...</div>';
+        container.innerHTML = '<div class="text-center text-gray-500 text-sm mt-12 animate-pulse">Đang tải, anh/chị chờ một chút...</div>';
 
         try {
             const rawData = await fetchFieldData('industry');
@@ -897,19 +900,19 @@
                 <div class="block-header">
                     <h2 class="text-base font-bold text-gray-800 flex items-center">
                         <svg class="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                        DOANH NGHIỆP ${blockCounter}
+                        HỢP TÁC XÃ ${blockCounter}
                     </h2>
                     ${blockCounter > 1 ? `<button onclick="removeBlock('${bId}')" class="text-red-500 hover:text-red-700 text-sm font-semibold flex items-center"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg> Xóa</button>` : ''}
                 </div>
 
                 <div class="p-5 md:p-8">
                     <div id="sec-tax-${bId}" class="max-w-2xl mx-auto py-4 text-center">
-                        <label id="tax-label-${bId}" class="form-label !text-base mb-1 text-gray-700">Vui lòng nhập Mã Số Thuế để kiểm tra <span class="required-mark">*</span></label>
-                        <p id="tax-subnote-${bId}" class="text-xs text-gray-500 mb-4">Cần kiểm tra mã số thuế trước khi tạo mới để tránh trùng lặp.</p>
+                        <label id="tax-label-${bId}" class="form-label !text-base mb-1 text-gray-700">Nhập mã số thuế của hợp tác xã để kiểm tra <span class="required-mark">*</span></label>
+                        <p id="tax-subnote-${bId}" class="text-xs text-gray-500 mb-4">Cần kiểm tra mã số thuế trước để tránh khai báo trùng.</p>
                         <div class="flex justify-center gap-2">
                             <input type="text" id="input-tax-${bId}" class="form-input text-lg font-semibold tracking-widest text-center w-full max-w-[250px]" placeholder="0123456789">
                             <button onclick="checkTax('${bId}')" id="btn-tax-${bId}" class="bg-blue-600 hover:bg-blue-700 text-white px-6 rounded-md font-bold transition-colors whitespace-nowrap text-sm">Tra cứu</button>
-                            <button onclick="resetTax('${bId}')" id="btn-reset-tax-${bId}" class="hidden bg-white border border-blue-300 hover:bg-blue-50 text-blue-600 px-6 rounded-md font-bold transition-colors whitespace-nowrap text-sm">Nhập lại MST</button>
+                            <button onclick="resetTax('${bId}')" id="btn-reset-tax-${bId}" class="hidden bg-white border border-blue-300 hover:bg-blue-50 text-blue-600 px-6 rounded-md font-bold transition-colors whitespace-nowrap text-sm">Nhập lại mã số thuế</button>
                         </div>
                         <div id="msg-tax-wrap-${bId}" class="hidden mt-5">
                             <p id="msg-tax-${bId}" class="text-base mb-3"></p>
@@ -921,8 +924,8 @@
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
                             <div class="space-y-5">
                                 <div>
-                                    <label class="form-label">Tên đầy đủ Doanh nghiệp <span class="required-mark">*</span></label>
-                                    <input type="text" id="fullname-${bId}" name="organization" autocomplete="organization" class="form-input" placeholder="VD: Công ty TNHH Giải pháp HKT">
+                                    <label class="form-label">Tên hợp tác xã <span class="required-mark">*</span></label>
+                                    <input type="text" id="fullname-${bId}" name="organization" autocomplete="organization" class="form-input" placeholder="VD: Hợp tác xã Nông nghiệp Xanh">
                                 </div>
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
@@ -949,31 +952,31 @@
                                     <input type="url" id="web-${bId}" class="form-input" placeholder="https://...">
                                 </div>
                                 <div>
-                                    <label class="form-label">Địa chỉ trụ sở</label>
+                                    <label class="form-label">Địa chỉ hợp tác xã</label>
                                     <input type="text" id="address-${bId}" class="form-input" placeholder="Nhập địa chỉ đầy đủ">
                                 </div>
                                 <div>
                                     <label class="flex justify-between items-end form-label"><span>Mô tả ngắn gọn</span> <span id="cnt-bio-${bId}" class="text-xs text-gray-400 font-normal">0/500</span></label>
-                                    <textarea id="bio-${bId}" maxlength="500" onkeydown="if(event.key === 'Enter') return false;" oninput="cleanNewLines(this, 'cnt-bio-${bId}', 500)" rows="3" class="form-input resize-none" placeholder="Giới thiệu nhanh trong 2-3 câu (Không xuống dòng)..."></textarea>
+                                    <textarea id="bio-${bId}" maxlength="500" onkeydown="if(event.key === 'Enter') return false;" oninput="cleanNewLines(this, 'cnt-bio-${bId}', 500)" rows="3" class="form-input resize-none" placeholder="Giới thiệu hợp tác xã trong 2-3 câu (không xuống dòng)..."></textarea>
                                 </div>
                                 <div>
-                                    <label class="flex justify-between items-end form-label"><span>Nội dung chi tiết</span> <span id="cnt-content-${bId}" class="text-xs text-gray-400 font-normal">0/3500</span></label>
-                                    <textarea id="content-${bId}" maxlength="3500" oninput="document.getElementById('cnt-content-${bId}').innerText = this.value.length + '/3500'" rows="5" class="form-input" placeholder="Lịch sử hình thành, tầm nhìn, sứ mệnh..."></textarea>
+                                    <label class="flex justify-between items-end form-label"><span>Giới thiệu chi tiết</span> <span id="cnt-content-${bId}" class="text-xs text-gray-400 font-normal">0/3500</span></label>
+                                    <textarea id="content-${bId}" maxlength="3500" oninput="document.getElementById('cnt-content-${bId}').innerText = this.value.length + '/3500'" rows="5" class="form-input" placeholder="Hợp tác xã thành lập khi nào, làm gì, sản phẩm chính, mục tiêu..."></textarea>
                                 </div>
                             </div>
 
                             <div class="space-y-5">
                                 
                                 <div>
-                                    <label class="form-label flex items-end">Logo Doanh Nghiệp <span class="text-xs text-gray-400 font-normal ml-1">(Vui lòng dùng ảnh tỉ lệ 1:1)</span></label>
+                                    <label class="form-label flex items-end">Logo hợp tác xã <span class="text-xs text-gray-400 font-normal ml-1">(Nên dùng ảnh vuông)</span></label>
                                     <div class="form-container flex flex-col gap-3" id="logo-container-${bId}">
                                         <div class="flex items-center justify-between gap-2">
                                             <input type="file" id="file-logo-${bId}" accept="image/*" class="hidden" onchange="handleLogoSelect('${bId}', this)">
                                             <div class="flex gap-1 items-center flex-wrap">
-                                                <button id="btn-logo-file-${bId}" onclick="document.getElementById('file-logo-${bId}').click()" class="bg-gray-100 border border-gray-300 text-sm px-3 py-1.5 rounded-md hover:bg-gray-200 font-semibold text-gray-700 transition-colors shadow-sm">Chọn File</button>
+                                                <button id="btn-logo-file-${bId}" onclick="document.getElementById('file-logo-${bId}').click()" class="bg-gray-100 border border-gray-300 text-sm px-3 py-1.5 rounded-md hover:bg-gray-200 font-semibold text-gray-700 transition-colors shadow-sm">Tải lên</button>
                                                 <button id="btn-logo-url-${bId}" onclick="toggleLogoLink('${bId}')" class="bg-white border border-gray-300 text-sm px-3 py-1.5 rounded-md hover:bg-gray-50 font-semibold text-gray-700 transition-colors shadow-sm">Nhập Link</button>
                                                 <button id="btn-logo-cancel-${bId}" onclick="cancelLogo('${bId}')" class="hidden bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm px-4 py-1.5 rounded-md font-bold transition-colors shadow-sm">Hủy</button>
-                                                <button id="btn-logo-upload-${bId}" onclick="uploadLogo('${bId}')" class="hidden bg-gray-800 hover:bg-black text-white text-sm px-4 py-1.5 rounded-md font-bold transition-colors shadow-sm">Lưu</button>
+                                                <button id="btn-logo-upload-${bId}" onclick="uploadLogo('${bId}')" class="hidden bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-1.5 rounded-md font-bold transition-colors shadow-sm">Lưu</button>
                                             </div>
                                             <div class="flex items-center gap-2 text-right">
                                                 <div id="logo-status-${bId}" class="text-xs font-medium text-gray-500 flex items-center justify-end">Chưa có ảnh</div>
@@ -991,17 +994,17 @@
                                 </div>
 
                                 <div>
-                                    <label class="form-label flex items-end">Thư viện Ảnh / Dự án <span class="text-xs text-gray-500 font-normal ml-1">(Tối đa 5 ảnh, tỉ lệ 16:9)</span></label>
-                                    <p class="text-xs text-gray-500 mb-2">Mẹo: Kéo thả các ảnh bên dưới để sắp xếp. Ảnh đầu tiên sẽ làm Banner.</p>
+                                    <label class="form-label flex items-end">Ảnh hoạt động <span class="text-xs text-gray-500 font-normal ml-1">(Tối đa 5 ảnh, nên chụp ngang)</span></label>
+                                    <p class="text-xs text-gray-500 mb-2">Kéo thả để sắp xếp ảnh. Ảnh đầu tiên sẽ là ảnh bìa của hợp tác xã.</p>
                                     <div class="form-container bg-gray-50 border-dashed border-2">
                                         <input type="file" id="file-gal-${bId}" accept="image/*" multiple class="hidden" onchange="handleGallerySelect('${bId}', this)">
                                         <div class="flex flex-col pb-3 border-b border-gray-200 mb-3 gap-2" id="gal-btn-container-${bId}">
                                             <div class="flex justify-between items-center w-full">
                                                 <div class="flex gap-1.5 flex-wrap">
-                                                    <button id="btn-gal-file-${bId}" onclick="document.getElementById('file-gal-${bId}').click()" class="bg-white border border-gray-300 shadow-sm text-sm px-3 py-1.5 rounded-md hover:bg-gray-100 font-semibold text-gray-700 transition-colors">+ Chọn file</button>
+                                                    <button id="btn-gal-file-${bId}" onclick="document.getElementById('file-gal-${bId}').click()" class="bg-white border border-gray-300 shadow-sm text-sm px-3 py-1.5 rounded-md hover:bg-gray-100 font-semibold text-gray-700 transition-colors">+ Tải lên</button>
                                                     <button id="btn-gal-url-${bId}" onclick="toggleGalLink('${bId}')" class="bg-white border border-gray-300 shadow-sm text-sm px-3 py-1.5 rounded-md hover:bg-gray-100 font-semibold text-gray-700 transition-colors">+ Nhập Link</button>
                                                     <button id="btn-gal-cancel-${bId}" onclick="cancelGallery('${bId}')" class="hidden bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm px-4 py-1.5 rounded-md font-bold transition-colors shadow-sm">Hủy</button>
-                                                    <button id="btn-gal-upload-${bId}" onclick="uploadGallery('${bId}')" class="hidden bg-gray-800 hover:bg-black shadow-sm text-white text-sm px-4 py-1.5 rounded-md font-bold transition-colors">Lưu</button>
+                                                    <button id="btn-gal-upload-${bId}" onclick="uploadGallery('${bId}')" class="hidden bg-blue-600 hover:bg-blue-700 shadow-sm text-white text-sm px-4 py-1.5 rounded-md font-bold transition-colors">Lưu</button>
                                                 </div>
                                                 <div id="gal-status-${bId}" class="text-xs text-gray-500 font-medium whitespace-nowrap ml-2">Đã chọn 0/5</div>
                                             </div>
@@ -1016,7 +1019,7 @@
 
                                 <div>
                                     <div class="flex justify-between items-end mb-1.5" id="ind-header-${bId}">
-                                        <label class="form-label" style="margin-bottom:0">Ngành nghề kinh doanh <span class="required-mark">*</span></label>
+                                        <label class="form-label" style="margin-bottom:0">Lĩnh vực hoạt động <span class="required-mark">*</span></label>
                                         <button id="btn-ind-${bId}" onclick="loadGlobalIndustries('${bId}')" type="button" class="bg-blue-600 hover:bg-blue-700 text-white flex items-center text-xs font-semibold px-3 py-1.5 rounded-md transition-colors shadow-sm">
                                             Tải danh sách
                                         </button>
@@ -1032,18 +1035,18 @@
                                 </div>
 
                                 <div>
-                                    <label class="flex justify-between items-end form-label"><span>Từ khóa tìm kiếm doanh nghiệp</span> <span id="cnt-kw-${bId}" class="text-xs text-gray-400 font-normal">0/10</span></label>
+                                    <label class="flex justify-between items-end form-label"><span>Từ khóa về hợp tác xã</span> <span id="cnt-kw-${bId}" class="text-xs text-gray-400 font-normal">0/10</span></label>
                                     <div class="form-container flex flex-col min-h-[48px]" style="padding:0.5rem">
-                                        <input type="text" id="input-kw-${bId}" oninput="handleKeywordInput('${bId}', this)" class="w-full bg-transparent text-sm outline-none text-gray-800 p-1 mb-1 placeholder-gray-400" placeholder="Gõ từ khóa và bấm phẩy (,) hoặc chấm phẩy (;)...">
+                                        <input type="text" id="input-kw-${bId}" oninput="handleKeywordInput('${bId}', this)" class="w-full bg-transparent text-sm outline-none text-gray-800 p-1 mb-1 placeholder-gray-400" placeholder="Gõ từ khóa, ngăn cách bằng dấu phẩy (,)...">
                                         <div id="kw-container-${bId}" class="flex flex-wrap gap-2"></div>
                                     </div>
                                 </div>
                                 
                                 <div>
-                                    <label class="flex justify-between items-end form-label"><span>Kênh xã hội doanh nghiệp</span> <span id="cnt-soc-${bId}" class="text-xs text-gray-500 font-normal">1/6</span></label>
+                                    <label class="flex justify-between items-end form-label"><span>Trang mạng xã hội của hợp tác xã</span> <span id="cnt-soc-${bId}" class="text-xs text-gray-500 font-normal">1/6</span></label>
                                     <div class="form-container" style="padding: 1rem;">
                                         <div id="soc-list-${bId}"></div>
-                                        <button id="btn-soc-${bId}" onclick="addSocial('${bId}')" class="mt-2 text-blue-600 hover:text-blue-800 text-sm font-bold flex items-center transition-colors">+ Thêm liên kết</button>
+                                        <button id="btn-soc-${bId}" onclick="addSocial('${bId}')" class="mt-2 text-blue-600 hover:text-blue-800 text-sm font-bold flex items-center transition-colors">+ Thêm trang mạng xã hội</button>
                                     </div>
                                 </div>
 
@@ -1052,18 +1055,18 @@
                     </div>
 
                     <div id="sec-link-${bId}" class="hidden mt-8 p-5 bg-gray-100 border border-gray-300 rounded-xl">
-                        <h3 class="text-gray-900 text-base font-bold mb-4">Vai trò / Chức vụ</h3>
+                        <h3 class="text-gray-900 text-base font-bold mb-4">Chức vụ của anh/chị</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-end">
                             <div>
-                                <label class="form-label" style="color:#111827">Chức vụ của bạn tại đây <span class="required-mark">*</span></label>
-                                <input type="text" id="pos-${bId}" maxlength="25" class="form-input focus:border-gray-800 focus:ring-gray-800" placeholder="VD: Tổng Giám Đốc, Founder...">
+                                <label class="form-label" style="color:#111827">Chức vụ tại hợp tác xã <span class="required-mark">*</span></label>
+                                <input type="text" id="pos-${bId}" maxlength="25" class="form-input focus:border-gray-800 focus:ring-gray-800" placeholder="VD: Giám đốc, Chủ tịch hội đồng quản trị...">
                             </div>
                             <div>
                                 <label class="flex items-center p-2.5 bg-white border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
                                     <input type="radio" name="primary_company" id="primary-${bId}" value="${bId}" ${isFirstCompany ? 'checked' : ''} class="w-5 h-5 text-blue-600 rounded-full border-gray-300 focus:ring-blue-500 mr-2.5">
                                     <div class="flex flex-col">
-                                        <span class="text-sm font-bold text-blue-600">Đặt làm doanh nghiệp CHÍNH</span>
-                                        <span class="text-xs text-gray-500 font-normal">Ưu tiên hiển thị đầu tiên</span>
+                                        <span class="text-sm font-bold text-blue-600">Đặt làm hợp tác xã CHÍNH</span>
+                                        <span class="text-xs text-gray-500 font-normal">Hiển thị đầu tiên trên hồ sơ</span>
                                     </div>
                                 </label>
                             </div>
@@ -1085,7 +1088,7 @@
     }
 
     function removeBlock(bId) {
-        showModal(`Bạn có chắc chắn muốn xóa form doanh nghiệp này không? <br><br> <button onclick="confirmRemoveBlock('${bId}')" class="bg-gray-800 text-white px-4 py-2 rounded font-bold text-sm hover:bg-black transition">Xác nhận xóa</button>`, "Xác nhận");
+        showModal(`Anh/chị có chắc muốn xóa phần hợp tác xã này không? <br><br> <button onclick="confirmRemoveBlock('${bId}')" class="bg-gray-800 text-white px-4 py-2 rounded font-bold text-sm hover:bg-black transition">Xác nhận xóa</button>`, "Xác nhận");
     }
 
     // ==========================================
@@ -1100,11 +1103,11 @@
         const actionWrap = document.getElementById(`action-tax-${bId}`);
         const taxVal = input.value.trim();
 
-        if (!taxVal) return showModal("Vui lòng nhập Mã số thuế để kiểm tra!");
+        if (!taxVal) return showModal("Anh/chị nhập mã số thuế để kiểm tra.");
 
         for (const [key, state] of Object.entries(companiesState)) {
             if (key !== bId && state.tax === taxVal) {
-                return showModal("Mã số thuế này đã được khai báo ở khối doanh nghiệp khác trên màn hình. Vui lòng kiểm tra lại!");
+                return showModal("Mã số thuế này đã nhập ở hợp tác xã khác trên màn hình. Anh/chị kiểm tra lại.");
             }
         }
 
@@ -1112,7 +1115,7 @@
         btnTax.innerText = "Đang tra...";
         msgWrap.classList.remove('hidden');
         msg.className = "text-sm font-medium text-gray-600 animate-pulse";
-        msg.innerText = "Đang tra cứu dữ liệu từ hệ thống...";
+        msg.innerText = "Đang kiểm tra, anh/chị chờ một chút...";
         actionWrap.innerHTML = "";
 
         enableForm(bId);
@@ -1154,11 +1157,11 @@
             btnReset.classList.remove('hidden');
 
             if (state.isExisting) {
-                document.getElementById(`tax-label-${bId}`).innerHTML = `Mã số thuế công ty <span class="required-mark">*</span>`;
+                document.getElementById(`tax-label-${bId}`).innerHTML = `Mã số thuế hợp tác xã <span class="required-mark">*</span>`;
                 document.getElementById(`tax-subnote-${bId}`).classList.add('hidden');
 
                 msg.className = "text-base font-bold text-gray-800";
-                msg.innerHTML = `Doanh nghiệp này đã được tạo trước, để điều chỉnh vui lòng liên hệ thư ký hội.`;
+                msg.innerHTML = `Hợp tác xã này đã đăng ký rồi. Muốn sửa thông tin, anh/chị liên hệ Văn phòng liên minh.`;
                 actionWrap.innerHTML = "";
                 
                 document.getElementById(`sec-new-${bId}`).classList.remove('hidden');
@@ -1167,7 +1170,7 @@
                 updateAddCompanyBtnVisibility();
             } else {
                 msg.className = "text-base font-bold text-gray-800";
-                msg.innerHTML = `Công ty chưa được đăng ký trong hệ thống của hội, bạn muốn khởi tạo thông tin với MST này không.`;
+                msg.innerHTML = `Hợp tác xã này chưa có trong danh sách của liên minh. Anh/chị có muốn tạo mới với mã số thuế này không?`;
                 actionWrap.innerHTML = `<button onclick="createNewCompany('${bId}')" class="mt-3 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-bold transition-colors text-sm shadow-sm">Tạo mới</button>`;
             }
 
@@ -1175,7 +1178,7 @@
             btnTax.classList.remove('hidden');
             btnReset.classList.add('hidden');
             msg.className = "text-sm font-bold text-red-600";
-            msg.innerText = "Lỗi mạng hoặc máy chủ. Vui lòng thử lại.";
+            msg.innerText = "Không kết nối được. Anh/chị thử lại sau.";
         } finally {
             btnTax.disabled = false;
             btnTax.innerText = "Tra cứu";
@@ -1186,7 +1189,7 @@
         const msgWrap = document.getElementById(`msg-tax-wrap-${bId}`);
         const actionWrap = document.getElementById(`action-tax-${bId}`);
         
-        document.getElementById(`tax-label-${bId}`).innerHTML = `Mã số thuế công ty <span class="required-mark">*</span>`;
+        document.getElementById(`tax-label-${bId}`).innerHTML = `Mã số thuế hợp tác xã <span class="required-mark">*</span>`;
         document.getElementById(`tax-subnote-${bId}`).classList.add('hidden');
 
         msgWrap.classList.add('hidden');
@@ -1203,7 +1206,7 @@
         const btnReset = document.getElementById(`btn-reset-tax-${bId}`);
         const msgWrap = document.getElementById(`msg-tax-wrap-${bId}`);
 
-        document.getElementById(`tax-label-${bId}`).innerHTML = `Vui lòng nhập Mã Số Thuế để kiểm tra <span class="required-mark">*</span>`;
+        document.getElementById(`tax-label-${bId}`).innerHTML = `Nhập mã số thuế của hợp tác xã để kiểm tra <span class="required-mark">*</span>`;
         document.getElementById(`tax-subnote-${bId}`).classList.remove('hidden');
 
         input.disabled = false;
@@ -1354,7 +1357,7 @@
         buttons.forEach(btn => btn.classList.add('hidden'));
 
         document.getElementById(`ind-search-box-${bId}`).style.display = 'none';
-        document.getElementById(`ind-list-${bId}`).innerHTML = '<div class="text-sm p-4 text-center text-black font-bold bg-gray-100 rounded border border-gray-200">Ngành nghề kinh doanh đã được thiết lập.</div>';
+        document.getElementById(`ind-list-${bId}`).innerHTML = '<div class="text-sm p-4 text-center text-black font-bold bg-gray-100 rounded border border-gray-200">Lĩnh vực hoạt động đã được chọn.</div>';
     }
 
 
@@ -1436,7 +1439,7 @@
             let kw = val.replace(/[;,]/g, '').trim();
             
             if (kw.length > 35) {
-                showModal("Mỗi từ khóa không được vượt quá 35 ký tự.");
+                showModal("Mỗi từ khóa chỉ được tối đa 35 chữ.");
                 inputEl.value = '';
                 return;
             }
@@ -1448,7 +1451,7 @@
             }
             inputEl.value = '';
         }
-        inputEl.placeholder = state.keywords.length >= 10 ? "Đã đạt tối đa 10 tags" : "Gõ từ khóa và bấm phẩy (,) hoặc chấm phẩy (;)...";
+        inputEl.placeholder = state.keywords.length >= 10 ? "Đã đủ 10 từ khóa" : "Gõ từ khóa, ngăn cách bằng dấu phẩy (,)...";
         inputEl.disabled = state.keywords.length >= 10;
     }
 
@@ -1467,7 +1470,7 @@
         renderKeywords(bId);
         const inputEl = document.getElementById(`input-kw-${bId}`);
         inputEl.disabled = false;
-        inputEl.placeholder = "Gõ từ khóa và bấm phẩy (,) hoặc chấm phẩy (;)...";
+        inputEl.placeholder = "Gõ từ khóa, ngăn cách bằng dấu phẩy (,)...";
         saveDraft();
     }
 
@@ -1482,7 +1485,7 @@
         div.id = rowId;
         div.className = 'flex gap-2 items-center soc-row p-1.5 border border-gray-200 rounded-lg bg-gray-50/50 mb-2';
         div.innerHTML = `
-            <input type="text" maxlength="25" value="${presetType}" placeholder="Loại kênh (VD: Facebook)" class="w-1/3 rounded-md border border-gray-300 px-3 py-2 text-sm bg-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 soc-type">
+            <input type="text" maxlength="25" value="${presetType}" placeholder="Tên (Facebook, Zalo...)" class="w-1/3 rounded-md border border-gray-300 px-3 py-2 text-sm bg-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 soc-type">
             <input type="url" placeholder="https://..." class="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm bg-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 soc-url">
             <button type="button" onclick="this.closest('.soc-row').remove(); updateSocCount('${bId}'); saveDraft();" class="text-gray-400 hover:text-red-600 font-bold px-2 text-xl leading-none" title="Xóa">&times;</button>
         `;
@@ -1617,7 +1620,7 @@
             checkPendingUploads();
             saveDraft();
         } else {
-            status.innerHTML = `<span class="text-red-600 font-bold">Link lỗi</span>`;
+            status.innerHTML = `<span class="text-red-600 font-bold">Link không đúng</span>`;
         }
     }
 
@@ -1643,7 +1646,7 @@
             
             checkPendingUploads();
         } catch (e) {
-            status.innerHTML = `<span class="text-red-600">Lỗi xử lý</span>`;
+            status.innerHTML = `<span class="text-red-600">Có lỗi, thử lại</span>`;
         }
     }
 
@@ -1656,7 +1659,7 @@
 
         btnUp.disabled = true;
         btnUp.innerText = "Đang lưu...";
-        status.innerHTML = `<span class="text-gray-500 font-bold animate-pulse">Đang đẩy lên...</span>`;
+        status.innerHTML = `<span class="text-gray-500 font-bold animate-pulse">Đang tải lên...</span>`;
 
         try {
             const uploadedUrl = await pushToR2(state.logoItem.file, "logo_company");
@@ -1672,7 +1675,7 @@
             btnCopy.classList.remove('hidden');
             btnCopy.setAttribute('onclick', `copyUrl('${uploadedUrl}')`);
         } catch(e) {
-            status.innerHTML = `<span class="text-red-600 font-bold">Lỗi tải ảnh</span>`;
+            status.innerHTML = `<span class="text-red-600 font-bold">Tải ảnh không được, thử lại</span>`;
         } finally {
             btnUp.disabled = false;
             btnUp.innerText = "Lưu";
@@ -1742,10 +1745,10 @@
         const status = document.getElementById(`gal-status-${bId}`);
 
         if (state.galleryItems.length + files.length > 5) {
-            return showModal("Chỉ được tải tối đa 5 ảnh cho mỗi doanh nghiệp.");
+            return showModal("Mỗi hợp tác xã chỉ được tối đa 5 ảnh.");
         }
 
-        status.innerHTML = `<span class="text-gray-500 font-bold animate-pulse">Đang nén ${files.length} ảnh...</span>`;
+        status.innerHTML = `<span class="text-gray-500 font-bold animate-pulse">Đang xử lý ${files.length} ảnh...</span>`;
         
         for (let i = 0; i < files.length; i++) {
             try {
@@ -1826,7 +1829,7 @@
 
         btnUp.disabled = true;
         btnUp.innerText = "Đang lưu...";
-        status.innerHTML = `<span class="text-gray-500 font-bold animate-pulse">Đang đẩy lên...</span>`;
+        status.innerHTML = `<span class="text-gray-500 font-bold animate-pulse">Đang tải lên...</span>`;
 
         try {
             for(let i=0; i<state.galleryItems.length; i++) {
@@ -1840,7 +1843,7 @@
             status.innerHTML = `<span class="text-black font-bold">Đã lưu ảnh mới</span>`;
             renderGallery(bId); 
         } catch(e) {
-            status.innerHTML = `<span class="text-red-600 font-bold">Lỗi xử lý</span>`;
+            status.innerHTML = `<span class="text-red-600 font-bold">Có lỗi, thử lại</span>`;
             showModal("Có lỗi trong quá trình lưu ảnh. Vui lòng thử lại.");
         } finally {
             btnUp.disabled = false;
@@ -1898,11 +1901,11 @@
             const cIndex = bId.split('-')[1];
             
             if (state.step === 'tax_check') {
-                return showModal(`DOANH NGHIỆP ${cIndex} chưa tra cứu Mã số thuế. Vui lòng kiểm tra lại.`);
+                return showModal(`HỢP TÁC XÃ ${cIndex} chưa tra cứu Mã số thuế. Vui lòng kiểm tra lại.`);
             }
 
             const pos = document.getElementById(`pos-${bId}`).value.trim();
-            if(!pos) return showModal(`Vui lòng nhập Chức vụ tại DOANH NGHIỆP ${cIndex}`);
+            if(!pos) return showModal(`Vui lòng nhập Chức vụ tại HỢP TÁC XÃ ${cIndex}`);
 
             let companyObj = {
                 is_existing: state.isExisting,
@@ -1917,10 +1920,10 @@
 
             if (!state.isExisting) {
                 if (state.logoItem && state.logoItem.type === 'pending') {
-                    return showModal(`DOANH NGHIỆP ${cIndex} có Logo chưa được lưu. Vui lòng bấm "Lưu" trước khi gửi.`);
+                    return showModal(`HỢP TÁC XÃ ${cIndex} có Logo chưa được lưu. Vui lòng bấm "Lưu" trước khi gửi.`);
                 }
                 if (state.galleryItems.some(i => i.type === 'pending')) {
-                    return showModal(`DOANH NGHIỆP ${cIndex} có ảnh dự án chưa được lưu. Vui lòng bấm "Lưu" trước khi gửi.`);
+                    return showModal(`HỢP TÁC XÃ ${cIndex} có ảnh dự án chưa được lưu. Vui lòng bấm "Lưu" trước khi gửi.`);
                 }
 
                 const name = document.getElementById(`fullname-${bId}`).value.trim();
@@ -1928,11 +1931,11 @@
                 const email = document.getElementById(`email-${bId}`).value.trim();
                 const birth = document.getElementById(`birth-${bId}`).value;
                 
-                if(!name || !phone || !email || !birth) return showModal(`Vui lòng nhập đủ Tên, Ngày thành lập, SĐT, Email tại DOANH NGHIỆP ${cIndex}`);
+                if(!name || !phone || !email || !birth) return showModal(`Anh/chị nhập đủ tên, ngày thành lập, số điện thoại, email tại HỢP TÁC XÃ ${cIndex}`);
                 if(phone.startsWith('0')) phone = '84' + phone.substring(1);
 
                 const indIds = state.selectedInd || [];
-                if(indIds.length === 0) return showModal(`Chọn ít nhất 1 Ngành nghề kinh doanh cho DOANH NGHIỆP ${cIndex}`);
+                if(indIds.length === 0) return showModal(`Chọn ít nhất 1 lĩnh vực hoạt động cho HỢP TÁC XÃ ${cIndex}`);
 
                 const socArr = [];
                 document.querySelectorAll(`#soc-list-${bId} .soc-row`).forEach(row => {
@@ -1965,10 +1968,10 @@
             companiesPayload.push(companyObj);
         }
 
-        if(companiesPayload.length === 0) return showModal("Không có dữ liệu doanh nghiệp nào để gửi!");
+        if(companiesPayload.length === 0) return showModal("Chưa có thông tin hợp tác xã nào để gửi.");
 
         if (memberAvatarState && memberAvatarState.type === 'pending') {
-            return showModal("Ảnh đại diện Hội viên chưa được lưu. Vui lòng bấm 'Lưu' ở Bước 1.");
+            return showModal("Ảnh đại diện chưa được lưu. Anh/chị quay lại Bước 1 và bấm 'Lưu' ở phần ảnh.");
         }
         const memberPayload = getMemberData();
 
@@ -1994,7 +1997,7 @@
             const targetNode = Array.isArray(respData) ? respData[0] : respData;
 
             if (res.ok && targetNode && targetNode.status === 'success') {
-                showModal("Hồ sơ đã được gửi thành công lên hệ thống!");
+                showModal("Đã gửi hồ sơ thành công. Cảm ơn anh/chị!");
                 localStorage.removeItem('yba_form_draft_full');
                 lockEntireForm();
             } else {
@@ -2005,7 +2008,7 @@
             console.error(err);
             showModal("Lỗi: " + err.message);
             btn.disabled = false;
-            btn.innerHTML = "HOÀN TẤT & GỬI HỒ SƠ";
+            btn.innerHTML = "GỬI HỒ SƠ";
             btn.classList.remove('cursor-not-allowed', 'opacity-80');
         }
     }
@@ -2123,7 +2126,7 @@
                     document.getElementById(`input-tax-${bId}`).disabled = true;
                     document.getElementById(`btn-tax-${bId}`).classList.add('hidden');
                     document.getElementById(`btn-reset-tax-${bId}`).classList.remove('hidden');
-                    document.getElementById(`tax-label-${bId}`).innerHTML = `Mã số thuế công ty <span class="required-mark">*</span>`;
+                    document.getElementById(`tax-label-${bId}`).innerHTML = `Mã số thuế hợp tác xã <span class="required-mark">*</span>`;
                     document.getElementById(`tax-subnote-${bId}`).classList.add('hidden');
                     
                     const secNew = document.getElementById(`sec-new-${bId}`);
@@ -2137,7 +2140,7 @@
                     document.getElementById(`input-tax-${bId}`).disabled = true;
                     document.getElementById(`btn-tax-${bId}`).classList.add('hidden');
                     document.getElementById(`btn-reset-tax-${bId}`).classList.remove('hidden');
-                    document.getElementById(`tax-label-${bId}`).innerHTML = `Mã số thuế công ty <span class="required-mark">*</span>`;
+                    document.getElementById(`tax-label-${bId}`).innerHTML = `Mã số thuế hợp tác xã <span class="required-mark">*</span>`;
                     document.getElementById(`tax-subnote-${bId}`).classList.add('hidden');
                 }
 
@@ -2213,5 +2216,32 @@
 
 </script>
 
+<script>
+// Khi dang cho Luu/Huy thi an nut "Tai len" (chon file) de nguoi dung khong bi roi
+(function(){
+    var re = /^btn-(.+?)-upload(.*)$/;
+    function sync(el){
+        var m = re.exec(el.id || ''); if(!m) return;
+        var f = document.getElementById('btn-' + m[1] + '-file' + m[2]); if(!f) return;
+        f.style.display = el.classList.contains('hidden') ? '' : 'none';
+    }
+    function scan(root){
+        if(root.nodeType !== 1) return;
+        if(root.id) sync(root);
+        root.querySelectorAll && root.querySelectorAll('[id^="btn-"][id*="-upload"]').forEach(sync);
+    }
+    new MutationObserver(function(list){
+        list.forEach(function(r){
+            if(r.type === 'attributes') sync(r.target);
+            else r.addedNodes.forEach(scan);
+        });
+    }).observe(document.body, {subtree:true, childList:true, attributes:true, attributeFilter:['class']});
+    scan(document.body);
+})();
+</script>
 </body>
+</html>
+
+</html>
+
 </html>
