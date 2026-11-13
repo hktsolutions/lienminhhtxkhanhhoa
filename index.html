@@ -1,0 +1,2217 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ĐĂNG KÝ HỒ SƠ HỘI VIÊN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #f8fafc; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+
+        /* CSS Thuần (Standard CSS) */
+        .form-input { 
+            width: 100%; 
+            border-radius: 0.375rem; 
+            border: 1px solid #d1d5db; 
+            background-color: #ffffff; 
+            padding: 0.625rem 0.875rem; 
+            font-size: 0.875rem; 
+            color: #111827; 
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); 
+            outline: none; 
+            transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s; 
+        }
+        .form-input::placeholder { color: #9ca3af; }
+        .form-input:hover:not(:disabled) { border-color: #9ca3af; }
+        .form-input:focus:not(:disabled) { border-color: #2563eb; box-shadow: 0 0 0 1px #2563eb; }
+        .form-input:disabled { background-color: #f9fafb; color: #6b7280; cursor: not-allowed; border-color: #e5e7eb; }
+        
+        .form-label { 
+            display: block; 
+            font-size: 0.875rem; 
+            font-weight: 600; 
+            color: #1f2937; 
+            margin-bottom: 0.375rem; 
+        }
+        
+        .form-container { 
+            border: 1px solid #d1d5db; 
+            background-color: #ffffff; 
+            border-radius: 0.375rem; 
+            padding: 1rem; 
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); 
+            transition: border-color 0.2s; 
+        }
+        .form-container:hover { border-color: #9ca3af; }
+        
+        .required-mark { color: #dc2626; margin-left: 0.25rem; font-weight: 700; }
+        
+        .block-container { 
+            background-color: #ffffff; 
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); 
+            border-radius: 0.75rem; 
+            border: 1px solid #e5e7eb; 
+            margin-bottom: 2rem; 
+            overflow: hidden; 
+            position: relative; 
+            transition: all 0.2s; 
+        }
+        
+        .block-header { 
+            background-color: #f9fafb; 
+            border-bottom: 1px solid #e5e7eb; 
+            padding: 1rem 1.5rem; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        
+        .readonly-mode { 
+            background-color: #f9fafb !important; 
+            color: #6b7280 !important; 
+            border-color: #e5e7eb !important; 
+            cursor: not-allowed !important; 
+            resize: none !important; 
+        }
+
+        .drag-over { border: 2px dashed #2563eb !important; opacity: 0.5; }
+    </style>
+</head>
+<body class="text-gray-800 pb-24 pt-8">
+
+<div id="custom-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 backdrop-blur-sm transition-opacity opacity-0">
+    <div class="bg-white rounded-xl shadow-2xl p-6 max-w-sm w-full mx-4 transform scale-95 transition-transform duration-200" id="modal-content">
+        <h3 class="text-lg font-extrabold text-gray-900 mb-3 flex items-center gap-2">
+            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            Thông báo hệ thống
+        </h3>
+        <p class="text-gray-700 mb-6 font-medium leading-relaxed" id="modal-message"></p>
+        <button onclick="closeModal()" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2.5 rounded-lg transition-colors shadow-sm text-sm uppercase tracking-wide">Đóng</button>
+    </div>
+</div>
+
+<div class="max-w-6xl mx-auto px-4 md:px-0" id="main-form-wrapper">
+    
+    <div class="mb-8 border-b border-gray-200 pb-5 text-center md:text-left">
+        <h1 class="text-2xl md:text-3xl font-extrabold text-blue-700 uppercase tracking-wide">Đăng ký hồ sơ hội viên</h1>
+        <p class="text-gray-500 mt-2 text-sm font-medium uppercase">Hội doanh nhân trẻ Khánh Hòa</p>
+    </div>
+
+    <div id="page-1" class="block-container !mb-8">
+        <div class="block-header bg-gradient-to-r from-blue-50 to-white border-b-2 border-blue-200">
+            <h2 class="text-lg font-bold text-blue-800">1. THÔNG TIN CÁ NHÂN</h2>
+            <span class="text-xs font-bold bg-blue-100 text-blue-600 px-3 py-1 rounded-full">Bước 1/2</span>
+        </div>
+        
+        <div class="p-5 md:p-8 grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <div class="space-y-5">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="form-label">Họ và tên <span class="required-mark">*</span></label>
+                        <input type="text" id="mem-fullname" name="name" autocomplete="name" class="form-input" placeholder="VD: Nguyễn Hiếu">
+                    </div>
+                    <div>
+                        <label class="form-label">Tên thương hiệu cá nhân</label>
+                        <input type="text" id="mem-alt-name" class="form-input" placeholder="VD: Mr. Hiếu">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="form-label">Số điện thoại <span class="required-mark">*</span></label>
+                        <input type="tel" id="mem-phone" name="phone" autocomplete="tel" class="form-input" placeholder="079...">
+                    </div>
+                    <div>
+                        <label class="form-label">Email <span class="required-mark">*</span></label>
+                        <input type="email" id="mem-email" name="email" autocomplete="email" class="form-input" placeholder="email@domain.com">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="form-label">Ngày sinh <span class="required-mark">*</span></label>
+                        <input type="date" id="mem-birth" name="bday" autocomplete="bday" class="form-input">
+                    </div>
+                    <div>
+                        <label class="form-label">Giới tính <span class="required-mark">*</span></label>
+                        <select id="mem-gender" class="form-input">
+                            <option value="">-- Chọn giới tính --</option>
+                            <option value="male">Nam</option>
+                            <option value="female">Nữ</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="form-label">Địa chỉ</label>
+                    <input type="text" id="mem-address" autocomplete="street-address" class="form-input" placeholder="Nhập địa chỉ đầy đủ">
+                </div>
+                
+                <div>
+                    <label class="form-label flex justify-between items-end">
+                        <span>Thông tin giới thiệu chi tiết</span>
+                        <span id="mem-bio-counter" class="text-xs text-gray-400 font-normal">0/500</span>
+                    </label>
+                    <textarea id="mem-bio" maxlength="500" onkeydown="if(event.key === 'Enter') return false;" oninput="cleanNewLines(this, 'mem-bio-counter', 500)" rows="5" class="form-input" placeholder="Giới thiệu bản thân, kinh nghiệm công tác (Không xuống dòng)..."></textarea>
+                </div>
+            </div>
+
+            <div class="space-y-5">
+                
+                <div>
+                    <label class="form-label flex items-end">Ảnh đại diện <span class="text-xs text-gray-400 font-normal ml-1">(Vui lòng dùng ảnh tỉ lệ 1:1)</span></label>
+                    <div class="form-container flex flex-col gap-3">
+                        <div class="flex items-center justify-between gap-2">
+                            <input type="file" id="file-mem-ava" accept="image/*" class="hidden" onchange="handleMemAvaSelect(this)">
+                            <div class="flex gap-1 items-center flex-wrap">
+                                <button id="btn-mem-ava-file" onclick="document.getElementById('file-mem-ava').click()" class="bg-gray-100 border border-gray-300 text-sm px-3 py-1.5 rounded-md hover:bg-gray-200 font-semibold text-gray-700 transition-colors shadow-sm">Chọn File</button>
+                                <button id="btn-mem-ava-url" onclick="toggleMemAvaLink()" class="bg-white border border-gray-300 text-sm px-3 py-1.5 rounded-md hover:bg-gray-50 font-semibold text-gray-700 transition-colors shadow-sm">Nhập Link</button>
+                                <button id="btn-mem-ava-cancel" onclick="cancelMemAva()" class="hidden bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm px-4 py-1.5 rounded-md font-bold transition-colors shadow-sm">Hủy</button>
+                                <button id="btn-mem-ava-upload" onclick="uploadMemAva()" class="hidden bg-gray-800 hover:bg-black text-white text-sm px-4 py-1.5 rounded-md font-bold transition-colors shadow-sm">Lưu</button>
+                            </div>
+                            <div class="flex items-center gap-2 text-right">
+                                <div id="mem-ava-status" class="text-xs font-medium text-gray-500 flex items-center justify-end">Chưa có ảnh</div>
+                                <div class="w-24 h-24 rounded-md border border-gray-200 overflow-hidden bg-gray-50 shrink-0 hidden shadow-sm relative group" id="mem-ava-wrap">
+                                    <img id="mem-ava-img" src="" class="w-full h-full object-cover">
+                                    <button id="mem-ava-copy" type="button" class="hidden absolute top-1 right-1 bg-white/90 rounded text-gray-700 w-7 h-7 flex items-center justify-center opacity-0 group-hover:opacity-100 shadow-sm hover:bg-white transition-opacity" title="Copy Link"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex gap-1.5 items-center hidden" id="mem-ava-link-wrap">
+                            <input type="url" id="mem-ava-link-input" class="form-input !py-1.5 text-sm w-full" placeholder="Dán link ảnh (https://...)">
+                            <button onclick="handleMemAvaLink()" class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-1.5 rounded-md font-bold transition-colors whitespace-nowrap shadow-sm">Kiểm tra</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="form-label">Vai trò trong hội <span class="required-mark">*</span></label>
+                        <select id="mem-role" class="form-input">
+                            <option value="">-- Chọn vai trò --</option>
+                            <option value="Chủ tịch">Chủ tịch</option>
+                            <option value="Phó Chủ tịch">Phó Chủ tịch</option>
+                            <option value="Ủy viên BCH">Ủy viên BCH</option>
+                            <option value="Hội viên">Hội viên</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Vai trò khác</label>
+                        <input type="text" id="mem-other-role" class="form-input" placeholder="VD: Chủ nhiệm CLB...">
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-end mb-1.5">
+                        <label class="form-label !mb-0">Chuyên môn <span class="required-mark">*</span></label>
+                        <button id="btn-mem-exp" onclick="loadGlobalExpertise()" type="button" class="bg-blue-600 hover:bg-blue-700 text-white flex items-center text-xs font-semibold px-3 py-1.5 rounded-md transition-colors shadow-sm">
+                            Tải danh sách
+                        </button>
+                    </div>
+                    <div class="form-container overflow-hidden flex flex-col !p-0 border border-gray-300">
+                        <div class="p-2 border-b border-gray-200 bg-white">
+                            <input type="text" id="search-mem-exp" disabled oninput="searchExp(this.value)" placeholder="Tìm kiếm chuyên môn..." class="w-full bg-gray-50 p-2 rounded text-sm outline-none disabled:opacity-50">
+                        </div>
+                        <div id="mem-exp-list" class="h-40 overflow-y-auto p-2 space-y-1 text-sm bg-white">
+                            <div class="text-center text-gray-400 text-sm mt-12">Vui lòng bấm "Tải danh sách" bên trên.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="flex justify-between items-end form-label"><span>Từ khóa tìm kiếm <span class="text-xs text-gray-500 font-normal ml-1">(lĩnh vực chuyên môn cá nhân)</span></span> <span id="cnt-mem-kw" class="text-xs text-gray-400 font-normal">0/10</span></label>
+                    <div class="form-container flex flex-col min-h-[48px]" style="padding:0.5rem">
+                        <input type="text" id="input-mem-kw" oninput="handleMemKeywordInput(this)" class="w-full bg-transparent text-sm outline-none text-gray-800 p-1 mb-1 placeholder-gray-400" placeholder="Ngăn cách bởi dấu (,) hoặc (;). Ví dụ: tư vấn chuyển đổi số; đào tạo AI; ...">
+                        <div id="mem-kw-container" class="flex flex-wrap gap-2"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="form-label">Kênh xã hội cá nhân</label>
+                    <div class="form-container !p-2">
+                        <div id="mem-soc-list"></div>
+                        <button id="btn-soc-mem" onclick="addMemSocialRow()" class="mt-2 text-blue-600 hover:text-blue-800 text-sm font-bold flex items-center transition-colors px-2">+ Thêm liên kết</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-6 bg-gray-50 border-t border-gray-200 text-right">
+            <button id="btn-next-page" onclick="nextPage()" class="bg-gray-800 hover:bg-black text-white px-8 py-3 rounded-lg font-bold shadow-md transition-all text-sm tracking-wide">
+                TIẾP TỤC: THÔNG TIN DOANH NGHIỆP ➔
+            </button>
+        </div>
+    </div>
+
+
+    <div id="page-2" class="hidden">
+        <div id="companies-wrapper"></div>
+
+        <div class="flex justify-center mt-6 hidden" id="add-company-btn-container">
+            <button type="button" onclick="addCompanyBlock()" class="flex items-center text-blue-600 font-bold bg-blue-50 hover:bg-blue-100 border border-blue-200 px-5 py-2.5 rounded-lg transition-colors shadow-sm text-sm">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                THÊM DOANH NGHIỆP KHÁC
+            </button>
+        </div>
+
+        <div class="mt-12 border-t border-gray-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <button id="btn-prev-page" onclick="prevPage()" class="text-gray-600 hover:text-black font-bold px-6 py-3 transition-colors underline">
+                🠔 Quay lại thông tin cá nhân
+            </button>
+            <button id="btn-submit" onclick="submitForm()" class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-3.5 rounded-lg font-bold shadow-lg shadow-blue-600/30 transition-all text-sm tracking-wide w-full md:w-auto">
+                HOÀN TẤT & GỬI HỒ SƠ
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // ICON Tick Xanh cho trạng thái hoàn tất ảnh
+    const TICK_ICON = `<div class="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm shadow-md" title="Đã lưu thành công">✓</div>`;
+
+    // Biến lưu trữ Toàn cục (State Management)
+    let selectedMemExp = new Set();
+    let memExpSearchKw = '';
+
+    // ==========================================
+    // HÀM XỬ LÝ CHUỖI XUỐNG DÒNG BIO & TEXTAREA
+    // ==========================================
+    function cleanNewLines(el, counterId, maxLen) {
+        el.value = el.value.replace(/[\r\n]/g, '');
+        const counter = document.getElementById(counterId);
+        if (counter) {
+            counter.innerText = `${el.value.length}/${maxLen}`;
+        }
+        triggerSaveDraft();
+    }
+
+    // Hàm gọi Check Pending Uploads để khóa/mở nút Submit & Next
+    function checkPendingUploads() {
+        let hasPendingMember = (memberAvatarState && memberAvatarState.type === 'pending');
+        let hasPendingCompany = false;
+        
+        for (let bId in companiesState) {
+            if (companiesState[bId].logoItem && companiesState[bId].logoItem.type === 'pending') hasPendingCompany = true;
+            if (companiesState[bId].galleryItems.some(item => item.type === 'pending')) hasPendingCompany = true;
+        }
+
+        const btnNext = document.getElementById('btn-next-page');
+        if (btnNext) {
+            if (hasPendingMember) {
+                btnNext.classList.add('opacity-50', 'pointer-events-none');
+                btnNext.innerText = 'LƯU ẢNH ĐỂ TIẾP TỤC';
+            } else {
+                btnNext.classList.remove('opacity-50', 'pointer-events-none');
+                btnNext.innerHTML = 'TIẾP TỤC: THÔNG TIN DOANH NGHIỆP ➔';
+            }
+        }
+
+        const btnSubmit = document.getElementById('btn-submit');
+        if (btnSubmit) {
+            if (hasPendingMember || hasPendingCompany) {
+                btnSubmit.disabled = true;
+                btnSubmit.classList.add('opacity-50', 'cursor-not-allowed');
+                btnSubmit.innerText = 'LƯU ẢNH TRƯỚC KHI GỬI';
+            } else {
+                btnSubmit.disabled = false;
+                btnSubmit.classList.remove('opacity-50', 'cursor-not-allowed');
+                btnSubmit.innerText = 'HOÀN TẤT & GỬI HỒ SƠ';
+            }
+        }
+    }
+
+
+    // ==========================================
+    // HÀM GỌI API CHUNG CHO EXPERTISE & INDUSTRY
+    // ==========================================
+    async function fetchFieldData(type) {
+        const res = await fetch('https://binn8nauto.io.vn/webhook/form/get-field', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: type })
+        });
+        if (!res.ok) throw new Error('Lỗi kết nối máy chủ');
+        return await res.json();
+    }
+
+    // ==========================================
+    // HÀM HIỂN THỊ MODAL & KHÓA FORM KHI XONG
+    // ==========================================
+    function showModal(message, title = "Thông báo hệ thống") {
+        document.getElementById('modal-message').innerHTML = message;
+        const modal = document.getElementById('custom-modal');
+        modal.classList.remove('hidden');
+        
+        setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            modal.firstElementChild.classList.remove('scale-95');
+            modal.firstElementChild.classList.add('scale-100');
+        }, 10);
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('custom-modal');
+        modal.classList.add('opacity-0');
+        modal.firstElementChild.classList.remove('scale-100');
+        modal.firstElementChild.classList.add('scale-95');
+        setTimeout(() => { modal.classList.add('hidden'); }, 200);
+    }
+
+    function copyUrl(url) {
+        const input = document.createElement('input');
+        input.value = url;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.body.removeChild(input);
+        
+        const toast = document.createElement('div');
+        toast.className = 'fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded shadow-lg text-sm font-bold z-[60] transition-opacity duration-300';
+        toast.innerText = 'Đã sao chép Link!';
+        document.body.appendChild(toast);
+        setTimeout(() => {
+            toast.classList.add('opacity-0');
+            setTimeout(() => toast.remove(), 300);
+        }, 2000);
+    }
+
+    function lockEntireForm() {
+        document.querySelectorAll('input, select, textarea').forEach(el => {
+            el.disabled = true;
+            el.classList.add('bg-gray-50');
+        });
+        document.querySelectorAll('button').forEach(btn => {
+            const onclickCode = btn.getAttribute('onclick') || '';
+            if (!onclickCode.includes('copyUrl') && !onclickCode.includes('closeModal') && !onclickCode.includes('nextPage') && !onclickCode.includes('prevPage') && btn.id !== 'btn-submit') {
+                btn.style.display = 'none';
+            }
+        });
+        const btnSubmit = document.getElementById('btn-submit');
+        if(btnSubmit) {
+            btnSubmit.innerText = "HỒ SƠ ĐÃ GỬI THÀNH CÔNG";
+            btnSubmit.className = "bg-green-600 text-white px-10 py-3.5 rounded-lg font-bold shadow-lg shadow-green-600/30 w-full md:w-auto cursor-not-allowed opacity-90";
+            btnSubmit.disabled = true;
+        }
+    }
+
+
+    // ==========================================
+    // ĐIỀU HƯỚNG TRANG (WIZARD) VÀ VALIDATE TRANG 1
+    // ==========================================
+    function nextPage() {
+        const name = document.getElementById('mem-fullname').value.trim();
+        const phone = document.getElementById('mem-phone').value.trim();
+        const email = document.getElementById('mem-email').value.trim();
+        const gender = document.getElementById('mem-gender').value;
+        const role = document.getElementById('mem-role').value;
+        const birth = document.getElementById('mem-birth').value;
+
+        if(!name || !phone || !email || !gender || !role || !birth) {
+            return showModal("Vui lòng điền đầy đủ <b>Họ tên, Ngày sinh, Số điện thoại, Email, Giới tính và Vai trò</b> trước khi tiếp tục.");
+        }
+
+        if(selectedMemExp.size === 0) {
+            return showModal("Vui lòng tải danh sách và chọn ít nhất 1 <b>Chuyên môn</b> của bạn.");
+        }
+
+        document.getElementById('page-1').classList.add('hidden');
+        document.getElementById('page-2').classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function prevPage() {
+        document.getElementById('page-2').classList.add('hidden');
+        document.getElementById('page-1').classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ==========================================
+    // LOGIC FORM HỘI VIÊN (MEMBER) - CHUYÊN MÔN
+    // ==========================================
+    let globalExpertise = [];
+
+    async function loadGlobalExpertise() {
+        const container = document.getElementById('mem-exp-list');
+        const searchInput = document.getElementById('search-mem-exp');
+        const btnExp = document.getElementById('btn-mem-exp');
+
+        if (globalExpertise.length > 0) {
+            renderExpertise();
+            searchInput.disabled = false;
+            return;
+        }
+
+        const originalBtnText = btnExp.innerHTML;
+        btnExp.innerText = "Đang tải...";
+        btnExp.disabled = true;
+        container.innerHTML = '<div class="text-center text-gray-500 text-sm mt-12 animate-pulse">Đang lấy dữ liệu từ hệ thống...</div>';
+        
+        try {
+            const rawData = await fetchFieldData('expertise');
+            
+            let backendMsg = "";
+            const targetNode = Array.isArray(rawData) ? rawData[0] : rawData;
+            if (targetNode && targetNode.status !== undefined) {
+                backendMsg = targetNode.message || "";
+                if (targetNode.status === 'fail') throw new Error(backendMsg || "Hệ thống báo lỗi");
+            }
+            
+            globalExpertise = [];
+            function deepScan(node) {
+                if (!node || typeof node !== 'object') return;
+                if (('id' in node || 'ID' in node) && ('Name' in node || 'name' in node)) {
+                    globalExpertise.push(node);
+                } else { Object.values(node).forEach(child => deepScan(child)); }
+            }
+            deepScan(rawData);
+            
+            if (globalExpertise.length === 0) throw new Error(backendMsg || "Không tìm thấy danh sách");
+            
+            renderExpertise();
+            searchInput.disabled = false;
+        } catch (error) {
+            container.innerHTML = `<div class="text-center text-red-600 text-sm mt-12 px-4">${error.message}</div>`;
+        } finally {
+            btnExp.innerHTML = originalBtnText;
+            btnExp.disabled = false;
+        }
+    }
+
+    function searchExp(keyword) {
+        memExpSearchKw = keyword.toLowerCase().trim();
+        renderExpertise();
+    }
+
+    function toggleMemExp(id, checked) {
+        if (checked) {
+            selectedMemExp.add(id);
+        } else {
+            selectedMemExp.delete(id);
+        }
+        saveDraft();
+        renderExpertise();
+    }
+
+    function renderExpertise() {
+        const container = document.getElementById('mem-exp-list');
+        if (!container) return;
+        container.innerHTML = '';
+        
+        if (globalExpertise.length === 0) {
+            container.innerHTML = '<div class="text-center text-gray-500 text-sm mt-12">Không tìm thấy chuyên môn phù hợp.</div>';
+            return;
+        }
+
+        let displayData = globalExpertise;
+        
+        if (memExpSearchKw) {
+            displayData = globalExpertise.filter(i => (i.Name || i.name || "").toLowerCase().includes(memExpSearchKw));
+        }
+
+        displayData = [...displayData].sort((a, b) => {
+            const idA = a.id || a.ID;
+            const idB = b.id || b.ID;
+            const isSelA = selectedMemExp.has(idA);
+            const isSelB = selectedMemExp.has(idB);
+            
+            if (isSelA && !isSelB) return -1;
+            if (!isSelA && isSelB) return 1;
+            
+            const pA = a.Priority !== undefined ? Number(a.Priority) : (a.priority !== undefined ? Number(a.priority) : 999);
+            const pB = b.Priority !== undefined ? Number(b.Priority) : (b.priority !== undefined ? Number(b.priority) : 999);
+            return pB - pA;
+        });
+
+        if (displayData.length === 0) {
+            container.innerHTML = '<div class="text-center text-gray-500 text-sm mt-12">Không tìm thấy kết quả.</div>';
+            return;
+        }
+
+        displayData.forEach(item => {
+            const name = item.Name || item.name;
+            const id = item.id || item.ID;
+            if(!id || !name) return;
+            
+            const isChecked = selectedMemExp.has(id) ? 'checked' : '';
+            const div = document.createElement('label');
+            div.className = 'flex items-center hover:bg-gray-50 p-1.5 rounded cursor-pointer text-sm';
+            div.innerHTML = `<input type="checkbox" name="mem-expert" value="${id}" ${isChecked} onchange="toggleMemExp('${id}', this.checked)" class="mr-2 text-blue-600 rounded"> <span class="truncate" title="${name}">${name}</span>`;
+            container.appendChild(div);
+        });
+    }
+
+    // Từ khóa chuyên môn (Tags)
+    let memKeywords = [];
+    function handleMemKeywordInput(inputEl) {
+        let val = inputEl.value;
+        if (val.includes(';') || val.includes(',')) {
+            let kw = val.replace(/[;,]/g, '').trim();
+            
+            if (kw.length > 35) {
+                showModal("Mỗi từ khóa không được vượt quá 35 ký tự.");
+                inputEl.value = '';
+                return;
+            }
+
+            if (kw && memKeywords.length < 10 && !memKeywords.includes(kw)) {
+                memKeywords.push(kw);
+                renderMemKeywords();
+                saveDraft();
+            }
+            inputEl.value = '';
+        }
+        inputEl.placeholder = memKeywords.length >= 10 ? "Đã đạt tối đa 10 tags" : "Ngăn cách bởi dấu (,) hoặc (;). Ví dụ: tư vấn chuyển đổi số; đào tạo AI; ...";
+        inputEl.disabled = memKeywords.length >= 10;
+    }
+    function renderMemKeywords() {
+        const container = document.getElementById('mem-kw-container');
+        container.innerHTML = '';
+        memKeywords.forEach((kw, i) => {
+            container.innerHTML += `<span class="bg-gray-100 text-sm px-2 py-1 rounded flex items-center">${kw} <button type="button" onclick="removeMemKw(${i})" class="ml-2 text-gray-400 hover:text-red-600 font-bold">&times;</button></span>`;
+        });
+        document.getElementById('cnt-mem-kw').innerText = `${memKeywords.length}/10`;
+    }
+    function removeMemKw(index) {
+        memKeywords.splice(index, 1);
+        renderMemKeywords();
+        const inputEl = document.getElementById('input-mem-kw');
+        inputEl.disabled = false;
+        inputEl.placeholder = "Ngăn cách bởi dấu (,) hoặc (;). Ví dụ: tư vấn chuyển đổi số; đào tạo AI; ...";
+        saveDraft();
+    }
+
+    // ==========================================
+    // CẬP NHẬT: ĐỒNG NHẤT HÀM UPDATE SOCIAL COUNT
+    // ==========================================
+    function updateSocCount(targetId) {
+        if (targetId === 'mem') {
+            const list = document.getElementById('mem-soc-list');
+            if (!list) return;
+            const currentCount = list.querySelectorAll('.soc-row').length;
+            const btn = document.getElementById('btn-soc-mem'); 
+            if (btn) btn.classList.toggle('hidden', currentCount >= 6);
+        } else {
+            const list = document.getElementById(`soc-list-${targetId}`);
+            if (!list) return;
+            const currentCount = list.querySelectorAll('.soc-row').length;
+            const countEl = document.getElementById(`cnt-soc-${targetId}`);
+            if (countEl) countEl.innerText = `${Math.min(6, currentCount)}/6`;
+            const btn = document.getElementById(`btn-soc-${targetId}`);
+            if (btn) btn.classList.toggle('hidden', currentCount >= 6);
+        }
+    }
+
+    function addMemSocialRow(presetType = '') {
+        const list = document.getElementById('mem-soc-list');
+        if (!list) return;
+        const currentCount = list.querySelectorAll('.soc-row').length;
+        if (currentCount >= 6) return;
+
+        const rowId = `mem-soc-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
+        const div = document.createElement('div');
+        div.id = rowId;
+        div.className = 'flex gap-2 items-center soc-row p-1.5 border border-gray-200 rounded-lg bg-gray-50/50 mb-2';
+        div.innerHTML = `
+            <input type="text" maxlength="25" value="${presetType}" placeholder="Loại kênh (FB, YT...)" class="w-1/3 rounded-md border border-gray-300 px-3 py-2 text-sm bg-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 soc-type">
+            <input type="url" placeholder="https://..." class="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm bg-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 soc-url">
+            <button type="button" onclick="this.closest('.soc-row').remove(); updateSocCount('mem'); saveDraft();" class="text-gray-400 hover:text-red-600 font-bold px-2 text-xl leading-none" title="Xóa">&times;</button>
+        `;
+        list.appendChild(div);
+        updateSocCount('mem'); 
+        saveDraft();
+    }
+
+    // Upload Ảnh Đại Diện Hội Viên
+    let memberAvatarState = null; 
+
+    function toggleMemAvaLink() {
+        const wrap = document.getElementById('mem-ava-link-wrap');
+        const btn = document.getElementById('btn-mem-ava-url');
+        wrap.classList.toggle('hidden');
+        if (!wrap.classList.contains('hidden')) {
+            btn.className = "bg-blue-50 text-blue-600 border border-blue-200 text-sm px-3 py-1.5 rounded-md font-semibold transition-colors shadow-sm";
+        } else {
+            btn.className = "bg-white border border-gray-300 text-sm px-3 py-1.5 rounded-md hover:bg-gray-50 font-semibold text-gray-700 transition-colors shadow-sm";
+        }
+    }
+
+    function cancelMemAva() {
+        memberAvatarState = null;
+        document.getElementById('mem-ava-img').src = '';
+        document.getElementById('mem-ava-wrap').classList.add('hidden');
+        document.getElementById('mem-ava-status').innerHTML = 'Chưa có ảnh';
+        document.getElementById('btn-mem-ava-upload').classList.add('hidden');
+        document.getElementById('btn-mem-ava-cancel').classList.add('hidden');
+        document.getElementById('btn-mem-ava-url').classList.remove('hidden');
+        document.getElementById('file-mem-ava').value = '';
+        checkPendingUploads();
+    }
+
+    async function handleMemAvaLink() {
+        const input = document.getElementById('mem-ava-link-input');
+        const url = input.value.trim();
+        const status = document.getElementById('mem-ava-status');
+        if (!url) return;
+        
+        status.innerHTML = `<span class="text-gray-600 font-bold animate-pulse">Đang thử...</span>`;
+        const isValid = await checkImageValid(url);
+        
+        if (isValid) {
+            memberAvatarState = { type: 'external', url: url };
+            document.getElementById('mem-ava-img').src = url;
+            document.getElementById('mem-ava-wrap').classList.remove('hidden');
+            
+            const btnCopy = document.getElementById('mem-ava-copy');
+            btnCopy.classList.remove('hidden');
+            btnCopy.setAttribute('onclick', `copyUrl('${url}')`);
+
+            status.innerHTML = TICK_ICON;
+            document.getElementById('mem-ava-link-wrap').classList.add('hidden');
+            document.getElementById('btn-mem-ava-upload').classList.add('hidden');
+            document.getElementById('btn-mem-ava-cancel').classList.add('hidden');
+            document.getElementById('btn-mem-ava-url').classList.remove('hidden');
+            document.getElementById('btn-mem-ava-url').className = "bg-white border border-gray-300 text-sm px-3 py-1.5 rounded-md hover:bg-gray-50 font-semibold text-gray-700 transition-colors shadow-sm";
+            input.value = '';
+            checkPendingUploads();
+            saveDraft();
+        } else {
+            status.innerHTML = `<span class="text-red-600 font-bold">Link lỗi</span>`;
+        }
+    }
+
+    async function handleMemAvaSelect(input) {
+        if(!input.files[0]) return;
+        const status = document.getElementById('mem-ava-status');
+        try {
+            status.innerHTML = `<span class="text-gray-500 font-bold animate-pulse">Đang xử lý...</span>`;
+            const compressedFile = await compressImage(input.files[0], 1000, true); 
+            const previewUrl = URL.createObjectURL(compressedFile);
+            
+            memberAvatarState = { type: 'pending', file: compressedFile, url: previewUrl };
+            document.getElementById('mem-ava-img').src = previewUrl;
+            document.getElementById('mem-ava-wrap').classList.remove('hidden');
+            document.getElementById('mem-ava-copy').classList.add('hidden');
+            status.innerHTML = `<span class="text-gray-500 font-medium">Chưa lưu</span>`;
+            
+            document.getElementById('btn-mem-ava-upload').classList.remove('hidden');
+            document.getElementById('btn-mem-ava-cancel').classList.remove('hidden');
+            document.getElementById('btn-mem-ava-url').classList.add('hidden');
+            document.getElementById('mem-ava-link-wrap').classList.add('hidden');
+
+            checkPendingUploads();
+        } catch (e) {
+            status.innerHTML = `<span class="text-red-600 font-bold">Lỗi xử lý</span>`;
+        }
+    }
+
+    async function uploadMemAva() {
+        if(!memberAvatarState || memberAvatarState.type !== 'pending') return;
+        const btnUp = document.getElementById('btn-mem-ava-upload');
+        const status = document.getElementById('mem-ava-status');
+
+        btnUp.disabled = true; btnUp.innerText = "Đang lưu...";
+        status.innerHTML = `<span class="text-gray-500 font-bold animate-pulse">Đang lưu...</span>`;
+
+        try {
+            const uploadedUrl = await pushToR2(memberAvatarState.file, "ava_member");
+            memberAvatarState = { type: 'uploaded', file: null, url: uploadedUrl };
+            
+            status.innerHTML = TICK_ICON;
+            
+            btnUp.classList.add('hidden');
+            document.getElementById('btn-mem-ava-cancel').classList.add('hidden');
+            document.getElementById('btn-mem-ava-url').classList.remove('hidden');
+
+            const btnCopy = document.getElementById('mem-ava-copy');
+            btnCopy.classList.remove('hidden');
+            btnCopy.setAttribute('onclick', `copyUrl('${uploadedUrl}')`);
+        } catch(e) {
+            status.innerHTML = `<span class="text-red-600 font-bold">Lỗi R2</span>`;
+        } finally {
+            btnUp.disabled = false; btnUp.innerText = "Lưu";
+            checkPendingUploads();
+            saveDraft();
+        }
+    }
+
+    function getMemberData() {
+        const expertises = Array.from(selectedMemExp);
+        
+        const socials = [];
+        document.querySelectorAll('#mem-soc-list .soc-row').forEach(row => {
+            const type = row.querySelector('.soc-type').value.trim();
+            const url = row.querySelector('.soc-url').value.trim();
+            if(type && url) socials.push({ type, url });
+        });
+
+        let avatarUrl = "";
+        if (memberAvatarState) avatarUrl = memberAvatarState.url;
+
+        let phone = document.getElementById('mem-phone').value.replace(/\D/g, '');
+        if(phone.startsWith('0')) phone = '84' + phone.substring(1);
+
+        return {
+            Member_fullname: document.getElementById('mem-fullname').value.trim(),
+            Member_alt_name: document.getElementById('mem-alt-name').value.trim(),
+            Member_phone: phone,
+            Member_email: document.getElementById('mem-email').value.trim(),
+            Member_birth: document.getElementById('mem-birth').value,
+            Member_gender: document.getElementById('mem-gender').value,
+            Member_address: document.getElementById('mem-address').value.trim(),
+            Member_bio: document.getElementById('mem-bio').value.trim(),
+            Member_role: document.getElementById('mem-role').value,
+            Member_other_role: document.getElementById('mem-other-role').value.trim(),
+            Member_avatar_url: avatarUrl,
+            Member_expertise_id: expertises,
+            Member_keyword: memKeywords,
+            Member_social: socials
+        };
+    }
+
+
+    // ==========================================
+    // 1. TẢI NGÀNH NGHỀ (INDUSTRIES) CHO COMPANY
+    // ==========================================
+    let globalIndustries = [];
+
+    async function loadGlobalIndustries(bId) {
+        const container = document.getElementById(`ind-list-${bId}`);
+        const searchInput = document.getElementById(`search-ind-${bId}`);
+        const btnInd = document.getElementById(`btn-ind-${bId}`);
+
+        if (globalIndustries.length > 0) {
+            renderIndustries(bId);
+            searchInput.disabled = false;
+            return;
+        }
+
+        const originalBtnText = btnInd.innerHTML;
+        btnInd.innerText = "Đang tải...";
+        btnInd.disabled = true;
+        container.innerHTML = '<div class="text-center text-gray-500 text-sm mt-12 animate-pulse">Đang lấy dữ liệu từ hệ thống...</div>';
+
+        try {
+            const rawData = await fetchFieldData('industry');
+            
+            let backendMsg = "";
+            const targetNode = Array.isArray(rawData) ? rawData[0] : rawData;
+            
+            if (targetNode && targetNode.status !== undefined) {
+                backendMsg = targetNode.message || "";
+                if (targetNode.status === 'fail') throw new Error(backendMsg || "Hệ thống báo lỗi");
+            }
+
+            globalIndustries = [];
+            function deepScan(node) {
+                if (!node || typeof node !== 'object') return;
+                if (('id' in node || 'ID' in node) && ('Name' in node || 'name' in node)) {
+                    globalIndustries.push(node);
+                } else { Object.values(node).forEach(child => deepScan(child)); }
+            }
+            deepScan(rawData);
+
+            if (globalIndustries.length === 0) throw new Error(backendMsg || "Không tìm thấy danh sách");
+
+            renderIndustries(bId);
+            searchInput.disabled = false;
+        } catch (error) {
+            container.innerHTML = `<div class="text-center text-red-600 text-sm mt-12 px-4">${error.message}</div>`;
+        } finally {
+            btnInd.innerHTML = originalBtnText;
+            btnInd.disabled = false;
+        }
+    }
+
+    // ==========================================
+    // 2. QUẢN LÝ TRẠNG THÁI (STATE) & RENDER BLOCK (COMPANY)
+    // ==========================================
+    let blockCounter = 0;
+    const companiesState = {};
+
+    function updateAddCompanyBtnVisibility() {
+        const addBtnContainer = document.getElementById('add-company-btn-container');
+        let allFormsVisible = true;
+
+        for (const bId in companiesState) {
+            const secNew = document.getElementById(`sec-new-${bId}`);
+            if (!secNew || secNew.classList.contains('hidden')) {
+                allFormsVisible = false;
+                break;
+            }
+        }
+
+        if (allFormsVisible) {
+            addBtnContainer.classList.remove('hidden');
+        } else {
+            addBtnContainer.classList.add('hidden');
+        }
+    }
+
+    window.confirmRemoveBlock = function(bId) {
+        document.getElementById(`block-${bId}`).remove();
+        delete companiesState[bId];
+
+        // Tự động set công ty đầu tiên làm công ty chính nếu chưa có công ty nào được chọn
+        const remainingKeys = Object.keys(companiesState);
+        if (remainingKeys.length > 0) {
+            const hasPrimary = remainingKeys.some(key => document.getElementById(`primary-${key}`).checked);
+            if (!hasPrimary) {
+                document.getElementById(`primary-${remainingKeys[0]}`).checked = true;
+            }
+        }
+
+        checkPendingUploads();
+        updateAddCompanyBtnVisibility();
+        closeModal();
+        saveDraft(); 
+    }
+
+    function addCompanyBlock(isFromDraft = false) {
+        const isFirstCompany = Object.keys(companiesState).length === 0;
+        blockCounter++;
+        const bId = `comp-${blockCounter}`;
+        
+        companiesState[bId] = {
+            step: 'tax_check', 
+            isExisting: false,
+            tax: '',
+            companyId: null,
+            keywords: [],
+            socialCount: 1,
+            logoItem: null, 
+            galleryItems: [],
+            selectedInd: [],
+            searchIndKw: ''
+        };
+
+        const wrapper = document.getElementById('companies-wrapper');
+        const blockHtml = `
+            <div id="block-${bId}" class="block-container">
+                <div class="block-header">
+                    <h2 class="text-base font-bold text-gray-800 flex items-center">
+                        <svg class="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                        DOANH NGHIỆP ${blockCounter}
+                    </h2>
+                    ${blockCounter > 1 ? `<button onclick="removeBlock('${bId}')" class="text-red-500 hover:text-red-700 text-sm font-semibold flex items-center"><svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg> Xóa</button>` : ''}
+                </div>
+
+                <div class="p-5 md:p-8">
+                    <div id="sec-tax-${bId}" class="max-w-2xl mx-auto py-4 text-center">
+                        <label id="tax-label-${bId}" class="form-label !text-base mb-1 text-gray-700">Vui lòng nhập Mã Số Thuế để kiểm tra <span class="required-mark">*</span></label>
+                        <p id="tax-subnote-${bId}" class="text-xs text-gray-500 mb-4">Cần kiểm tra mã số thuế trước khi tạo mới để tránh trùng lặp.</p>
+                        <div class="flex justify-center gap-2">
+                            <input type="text" id="input-tax-${bId}" class="form-input text-lg font-semibold tracking-widest text-center w-full max-w-[250px]" placeholder="0123456789">
+                            <button onclick="checkTax('${bId}')" id="btn-tax-${bId}" class="bg-blue-600 hover:bg-blue-700 text-white px-6 rounded-md font-bold transition-colors whitespace-nowrap text-sm">Tra cứu</button>
+                            <button onclick="resetTax('${bId}')" id="btn-reset-tax-${bId}" class="hidden bg-white border border-blue-300 hover:bg-blue-50 text-blue-600 px-6 rounded-md font-bold transition-colors whitespace-nowrap text-sm">Nhập lại MST</button>
+                        </div>
+                        <div id="msg-tax-wrap-${bId}" class="hidden mt-5">
+                            <p id="msg-tax-${bId}" class="text-base mb-3"></p>
+                            <div id="action-tax-${bId}"></div>
+                        </div>
+                    </div>
+
+                    <div id="sec-new-${bId}" class="hidden space-y-8 border-t border-gray-200 pt-8 mt-4">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                            <div class="space-y-5">
+                                <div>
+                                    <label class="form-label">Tên đầy đủ Doanh nghiệp <span class="required-mark">*</span></label>
+                                    <input type="text" id="fullname-${bId}" name="organization" autocomplete="organization" class="form-input" placeholder="VD: Công ty TNHH Giải pháp HKT">
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="form-label">Tên viết tắt / Thương hiệu</label>
+                                        <input type="text" id="shortname-${bId}" class="form-input" placeholder="VD: HKT Solutions">
+                                    </div>
+                                    <div>
+                                        <label class="form-label">Ngày thành lập <span class="required-mark">*</span></label>
+                                        <input type="date" id="birth-${bId}" class="form-input">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="form-label">Điện thoại <span class="required-mark">*</span></label>
+                                        <input type="tel" id="phone-${bId}" class="form-input" placeholder="079...">
+                                    </div>
+                                    <div>
+                                        <label class="form-label">Email <span class="required-mark">*</span></label>
+                                        <input type="email" id="email-${bId}" class="form-input" placeholder="hello@company.com">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="form-label">Website</label>
+                                    <input type="url" id="web-${bId}" class="form-input" placeholder="https://...">
+                                </div>
+                                <div>
+                                    <label class="form-label">Địa chỉ trụ sở</label>
+                                    <input type="text" id="address-${bId}" class="form-input" placeholder="Nhập địa chỉ đầy đủ">
+                                </div>
+                                <div>
+                                    <label class="flex justify-between items-end form-label"><span>Mô tả ngắn gọn</span> <span id="cnt-bio-${bId}" class="text-xs text-gray-400 font-normal">0/500</span></label>
+                                    <textarea id="bio-${bId}" maxlength="500" onkeydown="if(event.key === 'Enter') return false;" oninput="cleanNewLines(this, 'cnt-bio-${bId}', 500)" rows="3" class="form-input resize-none" placeholder="Giới thiệu nhanh trong 2-3 câu (Không xuống dòng)..."></textarea>
+                                </div>
+                                <div>
+                                    <label class="flex justify-between items-end form-label"><span>Nội dung chi tiết</span> <span id="cnt-content-${bId}" class="text-xs text-gray-400 font-normal">0/3500</span></label>
+                                    <textarea id="content-${bId}" maxlength="3500" oninput="document.getElementById('cnt-content-${bId}').innerText = this.value.length + '/3500'" rows="5" class="form-input" placeholder="Lịch sử hình thành, tầm nhìn, sứ mệnh..."></textarea>
+                                </div>
+                            </div>
+
+                            <div class="space-y-5">
+                                
+                                <div>
+                                    <label class="form-label flex items-end">Logo Doanh Nghiệp <span class="text-xs text-gray-400 font-normal ml-1">(Vui lòng dùng ảnh tỉ lệ 1:1)</span></label>
+                                    <div class="form-container flex flex-col gap-3" id="logo-container-${bId}">
+                                        <div class="flex items-center justify-between gap-2">
+                                            <input type="file" id="file-logo-${bId}" accept="image/*" class="hidden" onchange="handleLogoSelect('${bId}', this)">
+                                            <div class="flex gap-1 items-center flex-wrap">
+                                                <button id="btn-logo-file-${bId}" onclick="document.getElementById('file-logo-${bId}').click()" class="bg-gray-100 border border-gray-300 text-sm px-3 py-1.5 rounded-md hover:bg-gray-200 font-semibold text-gray-700 transition-colors shadow-sm">Chọn File</button>
+                                                <button id="btn-logo-url-${bId}" onclick="toggleLogoLink('${bId}')" class="bg-white border border-gray-300 text-sm px-3 py-1.5 rounded-md hover:bg-gray-50 font-semibold text-gray-700 transition-colors shadow-sm">Nhập Link</button>
+                                                <button id="btn-logo-cancel-${bId}" onclick="cancelLogo('${bId}')" class="hidden bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm px-4 py-1.5 rounded-md font-bold transition-colors shadow-sm">Hủy</button>
+                                                <button id="btn-logo-upload-${bId}" onclick="uploadLogo('${bId}')" class="hidden bg-gray-800 hover:bg-black text-white text-sm px-4 py-1.5 rounded-md font-bold transition-colors shadow-sm">Lưu</button>
+                                            </div>
+                                            <div class="flex items-center gap-2 text-right">
+                                                <div id="logo-status-${bId}" class="text-xs font-medium text-gray-500 flex items-center justify-end">Chưa có ảnh</div>
+                                                <div class="w-24 h-24 rounded-md border border-gray-200 overflow-hidden bg-gray-50 shrink-0 hidden shadow-sm relative group" id="logo-wrap-${bId}">
+                                                    <img id="logo-img-${bId}" src="" class="w-full h-full object-cover">
+                                                    <button id="logo-copy-${bId}" type="button" class="hidden absolute top-1 right-1 bg-white/90 rounded text-gray-700 w-7 h-7 flex items-center justify-center opacity-0 group-hover:opacity-100 shadow-sm hover:bg-white transition-opacity" title="Copy Link"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex gap-1.5 items-center hidden" id="logo-link-wrap-${bId}">
+                                            <input type="url" id="logo-link-input-${bId}" class="form-input !py-1.5 text-sm w-full" placeholder="Dán link ảnh (https://...) vào đây">
+                                            <button onclick="handleLogoLink('${bId}')" class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-1.5 rounded-md font-bold transition-colors whitespace-nowrap shadow-sm">Kiểm tra</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="form-label flex items-end">Thư viện Ảnh / Dự án <span class="text-xs text-gray-500 font-normal ml-1">(Tối đa 5 ảnh, tỉ lệ 16:9)</span></label>
+                                    <p class="text-xs text-gray-500 mb-2">Mẹo: Kéo thả các ảnh bên dưới để sắp xếp. Ảnh đầu tiên sẽ làm Banner.</p>
+                                    <div class="form-container bg-gray-50 border-dashed border-2">
+                                        <input type="file" id="file-gal-${bId}" accept="image/*" multiple class="hidden" onchange="handleGallerySelect('${bId}', this)">
+                                        <div class="flex flex-col pb-3 border-b border-gray-200 mb-3 gap-2" id="gal-btn-container-${bId}">
+                                            <div class="flex justify-between items-center w-full">
+                                                <div class="flex gap-1.5 flex-wrap">
+                                                    <button id="btn-gal-file-${bId}" onclick="document.getElementById('file-gal-${bId}').click()" class="bg-white border border-gray-300 shadow-sm text-sm px-3 py-1.5 rounded-md hover:bg-gray-100 font-semibold text-gray-700 transition-colors">+ Chọn file</button>
+                                                    <button id="btn-gal-url-${bId}" onclick="toggleGalLink('${bId}')" class="bg-white border border-gray-300 shadow-sm text-sm px-3 py-1.5 rounded-md hover:bg-gray-100 font-semibold text-gray-700 transition-colors">+ Nhập Link</button>
+                                                    <button id="btn-gal-cancel-${bId}" onclick="cancelGallery('${bId}')" class="hidden bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm px-4 py-1.5 rounded-md font-bold transition-colors shadow-sm">Hủy</button>
+                                                    <button id="btn-gal-upload-${bId}" onclick="uploadGallery('${bId}')" class="hidden bg-gray-800 hover:bg-black shadow-sm text-white text-sm px-4 py-1.5 rounded-md font-bold transition-colors">Lưu</button>
+                                                </div>
+                                                <div id="gal-status-${bId}" class="text-xs text-gray-500 font-medium whitespace-nowrap ml-2">Đã chọn 0/5</div>
+                                            </div>
+                                            <div class="flex gap-1.5 w-full hidden mt-1" id="gal-link-wrap-${bId}">
+                                                <input type="url" id="gal-link-input-${bId}" class="form-input !py-1.5 text-sm w-full" placeholder="Dán link ảnh (https://...)">
+                                                <button onclick="handleGalLink('${bId}')" class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-1.5 rounded-md font-bold transition-colors whitespace-nowrap shadow-sm">Thêm ảnh</button>
+                                            </div>
+                                        </div>
+                                        <div id="gal-grid-${bId}" class="grid grid-cols-2 md:grid-cols-3 gap-3 empty:hidden"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between items-end mb-1.5" id="ind-header-${bId}">
+                                        <label class="form-label" style="margin-bottom:0">Ngành nghề kinh doanh <span class="required-mark">*</span></label>
+                                        <button id="btn-ind-${bId}" onclick="loadGlobalIndustries('${bId}')" type="button" class="bg-blue-600 hover:bg-blue-700 text-white flex items-center text-xs font-semibold px-3 py-1.5 rounded-md transition-colors shadow-sm">
+                                            Tải danh sách
+                                        </button>
+                                    </div>
+                                    <div class="form-container overflow-hidden flex flex-col" style="padding:0">
+                                        <div class="p-2 border-b border-gray-200 bg-white" id="ind-search-box-${bId}">
+                                            <input type="text" id="search-ind-${bId}" disabled oninput="searchInd('${bId}', this.value)" placeholder="Tìm kiếm lĩnh vực..." class="w-full bg-gray-50 p-2 rounded text-sm outline-none disabled:opacity-50">
+                                        </div>
+                                        <div id="ind-list-${bId}" class="h-40 overflow-y-auto p-2 space-y-1 text-sm bg-white">
+                                            <div class="text-center text-gray-400 text-sm mt-12">Vui lòng bấm "Tải danh sách" bên trên.</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="flex justify-between items-end form-label"><span>Từ khóa tìm kiếm doanh nghiệp</span> <span id="cnt-kw-${bId}" class="text-xs text-gray-400 font-normal">0/10</span></label>
+                                    <div class="form-container flex flex-col min-h-[48px]" style="padding:0.5rem">
+                                        <input type="text" id="input-kw-${bId}" oninput="handleKeywordInput('${bId}', this)" class="w-full bg-transparent text-sm outline-none text-gray-800 p-1 mb-1 placeholder-gray-400" placeholder="Gõ từ khóa và bấm phẩy (,) hoặc chấm phẩy (;)...">
+                                        <div id="kw-container-${bId}" class="flex flex-wrap gap-2"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="flex justify-between items-end form-label"><span>Kênh xã hội doanh nghiệp</span> <span id="cnt-soc-${bId}" class="text-xs text-gray-500 font-normal">1/6</span></label>
+                                    <div class="form-container" style="padding: 1rem;">
+                                        <div id="soc-list-${bId}"></div>
+                                        <button id="btn-soc-${bId}" onclick="addSocial('${bId}')" class="mt-2 text-blue-600 hover:text-blue-800 text-sm font-bold flex items-center transition-colors">+ Thêm liên kết</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="sec-link-${bId}" class="hidden mt-8 p-5 bg-gray-100 border border-gray-300 rounded-xl">
+                        <h3 class="text-gray-900 text-base font-bold mb-4">Vai trò / Chức vụ</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-end">
+                            <div>
+                                <label class="form-label" style="color:#111827">Chức vụ của bạn tại đây <span class="required-mark">*</span></label>
+                                <input type="text" id="pos-${bId}" maxlength="25" class="form-input focus:border-gray-800 focus:ring-gray-800" placeholder="VD: Tổng Giám Đốc, Founder...">
+                            </div>
+                            <div>
+                                <label class="flex items-center p-2.5 bg-white border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                    <input type="radio" name="primary_company" id="primary-${bId}" value="${bId}" ${isFirstCompany ? 'checked' : ''} class="w-5 h-5 text-blue-600 rounded-full border-gray-300 focus:ring-blue-500 mr-2.5">
+                                    <div class="flex flex-col">
+                                        <span class="text-sm font-bold text-blue-600">Đặt làm doanh nghiệp CHÍNH</span>
+                                        <span class="text-xs text-gray-500 font-normal">Ưu tiên hiển thị đầu tiên</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        `;
+        
+        wrapper.insertAdjacentHTML('beforeend', blockHtml);
+        
+        // Không tạo rác MXH nếu lấy từ draft
+        if (!isFromDraft) {
+            addSocial(bId, 'Facebook');
+            addSocial(bId, 'Youtube');
+        }
+        updateAddCompanyBtnVisibility();
+    }
+
+    function removeBlock(bId) {
+        showModal(`Bạn có chắc chắn muốn xóa form doanh nghiệp này không? <br><br> <button onclick="confirmRemoveBlock('${bId}')" class="bg-gray-800 text-white px-4 py-2 rounded font-bold text-sm hover:bg-black transition">Xác nhận xóa</button>`, "Xác nhận");
+    }
+
+    // ==========================================
+    // 3. LOGIC KIỂM TRA MÃ SỐ THUẾ & ĐIỀN READ-ONLY
+    // ==========================================
+    async function checkTax(bId) {
+        const input = document.getElementById(`input-tax-${bId}`);
+        const btnTax = document.getElementById(`btn-tax-${bId}`);
+        const btnReset = document.getElementById(`btn-reset-tax-${bId}`);
+        const msgWrap = document.getElementById(`msg-tax-wrap-${bId}`);
+        const msg = document.getElementById(`msg-tax-${bId}`);
+        const actionWrap = document.getElementById(`action-tax-${bId}`);
+        const taxVal = input.value.trim();
+
+        if (!taxVal) return showModal("Vui lòng nhập Mã số thuế để kiểm tra!");
+
+        for (const [key, state] of Object.entries(companiesState)) {
+            if (key !== bId && state.tax === taxVal) {
+                return showModal("Mã số thuế này đã được khai báo ở khối doanh nghiệp khác trên màn hình. Vui lòng kiểm tra lại!");
+            }
+        }
+
+        btnTax.disabled = true;
+        btnTax.innerText = "Đang tra...";
+        msgWrap.classList.remove('hidden');
+        msg.className = "text-sm font-medium text-gray-600 animate-pulse";
+        msg.innerText = "Đang tra cứu dữ liệu từ hệ thống...";
+        actionWrap.innerHTML = "";
+
+        enableForm(bId);
+        document.getElementById(`sec-new-${bId}`).classList.add('hidden');
+        document.getElementById(`sec-link-${bId}`).classList.add('hidden');
+        updateAddCompanyBtnVisibility();
+
+        try {
+            const res = await fetch("https://binn8nauto.io.vn/webhook/form/check-company", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ tax: taxVal })
+            });
+
+            const respJson = await res.json();
+            
+            let companyData = null;
+            const targetNode = Array.isArray(respJson) ? respJson[0] : respJson;
+
+            if (targetNode && targetNode.status === 'success' && Array.isArray(targetNode.data) && targetNode.data.length > 0) {
+                companyData = targetNode.data[0];
+            } else if (targetNode && (targetNode.exists || targetNode.is_existing)) {
+                companyData = targetNode;
+            }
+
+            const state = companiesState[bId];
+            state.tax = taxVal;
+            state.isExisting = !!companyData; 
+            state.step = state.isExisting ? 'existing_form' : 'new_form';
+            
+            if (companyData) {
+                state.companyId = companyData.id || companyData.Company_id || null;
+            } else {
+                state.companyId = null;
+            }
+
+            input.disabled = true;
+            btnTax.classList.add('hidden');
+            btnReset.classList.remove('hidden');
+
+            if (state.isExisting) {
+                document.getElementById(`tax-label-${bId}`).innerHTML = `Mã số thuế công ty <span class="required-mark">*</span>`;
+                document.getElementById(`tax-subnote-${bId}`).classList.add('hidden');
+
+                msg.className = "text-base font-bold text-gray-800";
+                msg.innerHTML = `Doanh nghiệp này đã được tạo trước, để điều chỉnh vui lòng liên hệ thư ký hội.`;
+                actionWrap.innerHTML = "";
+                
+                document.getElementById(`sec-new-${bId}`).classList.remove('hidden');
+                document.getElementById(`sec-link-${bId}`).classList.remove('hidden');
+                fillAndDisableForm(bId, companyData);
+                updateAddCompanyBtnVisibility();
+            } else {
+                msg.className = "text-base font-bold text-gray-800";
+                msg.innerHTML = `Công ty chưa được đăng ký trong hệ thống của hội, bạn muốn khởi tạo thông tin với MST này không.`;
+                actionWrap.innerHTML = `<button onclick="createNewCompany('${bId}')" class="mt-3 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-bold transition-colors text-sm shadow-sm">Tạo mới</button>`;
+            }
+
+        } catch (err) {
+            btnTax.classList.remove('hidden');
+            btnReset.classList.add('hidden');
+            msg.className = "text-sm font-bold text-red-600";
+            msg.innerText = "Lỗi mạng hoặc máy chủ. Vui lòng thử lại.";
+        } finally {
+            btnTax.disabled = false;
+            btnTax.innerText = "Tra cứu";
+        }
+    }
+
+    function createNewCompany(bId) {
+        const msgWrap = document.getElementById(`msg-tax-wrap-${bId}`);
+        const actionWrap = document.getElementById(`action-tax-${bId}`);
+        
+        document.getElementById(`tax-label-${bId}`).innerHTML = `Mã số thuế công ty <span class="required-mark">*</span>`;
+        document.getElementById(`tax-subnote-${bId}`).classList.add('hidden');
+
+        msgWrap.classList.add('hidden');
+        actionWrap.innerHTML = "";
+        
+        document.getElementById(`sec-new-${bId}`).classList.remove('hidden');
+        document.getElementById(`sec-link-${bId}`).classList.remove('hidden');
+        updateAddCompanyBtnVisibility();
+    }
+
+    function resetTax(bId) {
+        const input = document.getElementById(`input-tax-${bId}`);
+        const btnTax = document.getElementById(`btn-tax-${bId}`);
+        const btnReset = document.getElementById(`btn-reset-tax-${bId}`);
+        const msgWrap = document.getElementById(`msg-tax-wrap-${bId}`);
+
+        document.getElementById(`tax-label-${bId}`).innerHTML = `Vui lòng nhập Mã Số Thuế để kiểm tra <span class="required-mark">*</span>`;
+        document.getElementById(`tax-subnote-${bId}`).classList.remove('hidden');
+
+        input.disabled = false;
+        btnTax.classList.remove('hidden');
+        btnReset.classList.add('hidden');
+        msgWrap.classList.add('hidden');
+
+        document.getElementById(`sec-new-${bId}`).classList.add('hidden');
+        document.getElementById(`sec-link-${bId}`).classList.add('hidden');
+
+        companiesState[bId].step = 'tax_check';
+        companiesState[bId].isExisting = false;
+        companiesState[bId].tax = '';
+        companiesState[bId].companyId = null;
+        input.value = '';
+        input.focus();
+        updateAddCompanyBtnVisibility();
+    }
+
+    function enableForm(bId) {
+        const secNew = document.getElementById(`sec-new-${bId}`);
+        
+        const inputs = secNew.querySelectorAll('input, textarea');
+        inputs.forEach(el => {
+            if(el.type !== 'file' && el.type !== 'radio' && el.type !== 'checkbox') el.value = '';
+            el.readOnly = false;
+            el.disabled = false;
+            el.classList.remove('readonly-mode');
+        });
+
+        const buttons = secNew.querySelectorAll('button');
+        buttons.forEach(btn => btn.classList.remove('hidden'));
+        
+        document.getElementById(`btn-logo-upload-${bId}`).classList.add('hidden');
+        document.getElementById(`btn-logo-cancel-${bId}`).classList.add('hidden');
+        document.getElementById(`logo-link-wrap-${bId}`).classList.add('hidden');
+        
+        document.getElementById(`btn-gal-upload-${bId}`).classList.add('hidden');
+        document.getElementById(`btn-gal-cancel-${bId}`).classList.add('hidden');
+        document.getElementById(`gal-link-wrap-${bId}`).classList.add('hidden');
+
+        const btnLogoUrl = document.getElementById(`btn-logo-url-${bId}`);
+        if(btnLogoUrl) { btnLogoUrl.className = "bg-white border border-gray-300 text-sm px-3 py-1.5 rounded-md hover:bg-gray-50 font-semibold text-gray-700 transition-colors shadow-sm"; }
+        const btnGalUrl = document.getElementById(`btn-gal-url-${bId}`);
+        if(btnGalUrl) { btnGalUrl.className = "bg-white border border-gray-300 shadow-sm text-sm px-3 py-1.5 rounded-md hover:bg-gray-100 font-semibold text-gray-700 transition-colors"; }
+
+        document.getElementById(`logo-img-${bId}`).src = '';
+        document.getElementById(`logo-wrap-${bId}`).classList.add('hidden');
+        document.getElementById(`logo-copy-${bId}`).classList.add('hidden');
+        document.getElementById(`logo-status-${bId}`).innerHTML = 'Chưa có ảnh';
+        companiesState[bId].logoItem = null;
+
+        document.getElementById(`gal-grid-${bId}`).innerHTML = '';
+        document.getElementById(`gal-status-${bId}`).innerText = 'Đã chọn 0/5';
+        document.getElementById(`gal-btn-container-${bId}`).style.display = '';
+        companiesState[bId].galleryItems = [];
+
+        document.getElementById(`search-ind-${bId}`).value = '';
+        companiesState[bId].selectedInd = [];
+        companiesState[bId].searchIndKw = '';
+
+        document.getElementById(`ind-search-box-${bId}`).style.display = '';
+        const indList = document.getElementById(`ind-list-${bId}`);
+        indList.innerHTML = '<div class="text-center text-gray-400 text-sm mt-12">Vui lòng bấm "Tải danh sách" bên trên.</div>';
+        if(globalIndustries.length > 0) renderIndustries(bId);
+
+        document.getElementById(`soc-list-${bId}`).innerHTML = '';
+        companiesState[bId].socialCount = 0;
+        addSocial(bId, 'Facebook');
+        addSocial(bId, 'Youtube');
+
+        document.getElementById(`kw-container-${bId}`).innerHTML = '';
+        document.getElementById(`cnt-kw-${bId}`).innerText = '0/10';
+        companiesState[bId].keywords = [];
+    }
+
+    function fillAndDisableForm(bId, data) {
+        document.getElementById(`fullname-${bId}`).value = data.Company_fullname || '';
+        document.getElementById(`shortname-${bId}`).value = data.Company_shortname || '';
+        if(data.Company_birth) {
+            document.getElementById(`birth-${bId}`).value = data.Company_birth.split('T')[0];
+        }
+        document.getElementById(`phone-${bId}`).value = data.Company_phone || '';
+        document.getElementById(`email-${bId}`).value = data.Company_email || '';
+        document.getElementById(`web-${bId}`).value = data.Company_website || '';
+        document.getElementById(`address-${bId}`).value = data.Company_address || '';
+        document.getElementById(`bio-${bId}`).value = data.Company_bio || '';
+        document.getElementById(`content-${bId}`).value = data.Company_content || '';
+        
+        if(data.Company_logo_url) {
+            document.getElementById(`logo-img-${bId}`).src = data.Company_logo_url;
+            document.getElementById(`logo-wrap-${bId}`).classList.remove('hidden');
+            const btnCopy = document.getElementById(`logo-copy-${bId}`);
+            btnCopy.classList.remove('hidden');
+            btnCopy.setAttribute('onclick', `copyUrl('${data.Company_logo_url}')`);
+            document.getElementById(`logo-status-${bId}`).innerHTML = `<span class="text-black font-bold">Đã có trên hệ thống</span>`;
+        }
+
+        if(data.Company_images_url && data.Company_images_url.length > 0) {
+            const grid = document.getElementById(`gal-grid-${bId}`);
+            grid.innerHTML = '';
+            data.Company_images_url.forEach((url, idx) => {
+                grid.insertAdjacentHTML('beforeend', `
+                    <div class="relative w-full aspect-video border border-gray-200 rounded-lg overflow-hidden bg-gray-100 group">
+                        <img src="${url}" class="w-full h-full object-cover">
+                        <button type="button" onclick="copyUrl('${url}')" class="absolute top-1.5 right-1.5 bg-white/90 rounded text-gray-700 w-7 h-7 flex items-center justify-center opacity-0 group-hover:opacity-100 shadow-sm hover:bg-white transition-opacity" title="Copy Link"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg></button>
+                        ${idx === 0 ? '<div class="absolute bottom-0 left-0 right-0 bg-gray-800/90 text-white text-[10px] text-center py-1 font-bold tracking-wider uppercase">BANNER CHÍNH</div>' : ''}
+                    </div>
+                `);
+            });
+            document.getElementById(`gal-status-${bId}`).innerText = `Hệ thống: ${data.Company_images_url.length} ảnh`;
+            document.getElementById(`gal-btn-container-${bId}`).style.display = 'none'; 
+        }
+
+        if(data.Company_social && data.Company_social.length > 0) {
+            const list = document.getElementById(`soc-list-${bId}`);
+            list.innerHTML = '';
+            data.Company_social.forEach(soc => {
+                list.insertAdjacentHTML('beforeend', `
+                    <div class="flex gap-2 items-center soc-row p-1.5 border border-gray-200 rounded-lg bg-gray-50/50 mb-2">
+                        <input type="text" value="${soc.type}" class="w-1/3 rounded-md border border-gray-200 px-3 py-2 text-sm bg-gray-100 text-gray-500" disabled>
+                        <input type="url" value="${soc.url}" class="flex-1 rounded-md border border-gray-200 px-3 py-2 text-sm bg-gray-100 text-gray-500" disabled>
+                    </div>
+                `);
+            });
+            document.getElementById(`btn-soc-${bId}`).style.display = 'none'; 
+            document.getElementById(`cnt-soc-${bId}`).innerText = `${data.Company_social.length}/6`;
+        }
+        
+        if(data.Company_keyword && Array.isArray(data.Company_keyword) && data.Company_keyword.length > 0) {
+            const container = document.getElementById(`kw-container-${bId}`);
+            container.innerHTML = '';
+            data.Company_keyword.forEach(kw => {
+                container.innerHTML += `<span class="bg-gray-200 text-sm px-2 py-1 rounded flex items-center text-gray-600">${kw}</span>`;
+            });
+            document.getElementById(`cnt-kw-${bId}`).innerText = `${data.Company_keyword.length}/10`;
+        }
+
+        const secNew = document.getElementById(`sec-new-${bId}`);
+        const inputs = secNew.querySelectorAll('input, textarea');
+        inputs.forEach(el => {
+            el.readOnly = true;
+            el.disabled = true;
+            el.classList.add('readonly-mode');
+        });
+
+        const buttons = secNew.querySelectorAll('button');
+        buttons.forEach(btn => btn.classList.add('hidden'));
+
+        document.getElementById(`ind-search-box-${bId}`).style.display = 'none';
+        document.getElementById(`ind-list-${bId}`).innerHTML = '<div class="text-sm p-4 text-center text-black font-bold bg-gray-100 rounded border border-gray-200">Ngành nghề kinh doanh đã được thiết lập.</div>';
+    }
+
+
+    // ==========================================
+    // 4. LOGIC TỪ KHÓA, MẠNG XÃ HỘI, LĨNH VỰC
+    // ==========================================
+    function searchInd(bId, keyword) {
+        companiesState[bId].searchIndKw = keyword.toLowerCase().trim();
+        renderIndustries(bId);
+    }
+
+    function toggleInd(bId, id, checked) {
+        let sel = companiesState[bId].selectedInd || [];
+        if (checked) {
+            if (!sel.includes(id)) sel.push(id);
+        } else {
+            sel = sel.filter(i => i !== id);
+        }
+        companiesState[bId].selectedInd = sel;
+        saveDraft();
+        renderIndustries(bId);
+    }
+
+    function renderIndustries(bId) {
+        const container = document.getElementById(`ind-list-${bId}`);
+        if (!container) return;
+        container.innerHTML = '';
+        
+        if (globalIndustries.length === 0) {
+            container.innerHTML = '<div class="text-center text-gray-400 text-sm mt-12">Không tìm thấy lĩnh vực phù hợp.</div>';
+            return;
+        }
+
+        const state = companiesState[bId];
+        let displayData = globalIndustries;
+        
+        if (state.searchIndKw) {
+            displayData = globalIndustries.filter(i => (i.Name || i.name || "").toLowerCase().includes(state.searchIndKw));
+        }
+
+        const selArr = state.selectedInd || [];
+
+        displayData = [...displayData].sort((a, b) => {
+            const idA = a.id || a.ID;
+            const idB = b.id || b.ID;
+            const isSelA = selArr.includes(idA);
+            const isSelB = selArr.includes(idB);
+            
+            if (isSelA && !isSelB) return -1;
+            if (!isSelA && isSelB) return 1;
+            
+            const pA = a.Priority !== undefined ? Number(a.Priority) : (a.priority !== undefined ? Number(a.priority) : 999);
+            const pB = b.Priority !== undefined ? Number(b.Priority) : (b.priority !== undefined ? Number(b.priority) : 999);
+            return pB - pA;
+        });
+
+        if (displayData.length === 0) {
+            container.innerHTML = '<div class="text-center text-gray-400 text-sm mt-12">Không tìm thấy kết quả.</div>';
+            return;
+        }
+
+        displayData.forEach(item => {
+            const name = item.Name || item.name;
+            const id = item.id || item.ID;
+            if(!id || !name) return;
+            
+            const isChecked = selArr.includes(id) ? 'checked' : '';
+            const div = document.createElement('label');
+            div.className = 'flex items-center hover:bg-gray-50 p-1.5 rounded cursor-pointer';
+            div.innerHTML = `<input type="checkbox" name="ind-${bId}" value="${id}" ${isChecked} onchange="toggleInd('${bId}', '${id}', this.checked)" class="mr-2 text-blue-600 rounded"> <span class="truncate" title="${name}">${name}</span>`;
+            container.appendChild(div);
+        });
+    }
+
+    function handleKeywordInput(bId, inputEl) {
+        const state = companiesState[bId];
+        let val = inputEl.value;
+        if (val.includes(';') || val.includes(',')) {
+            let kw = val.replace(/[;,]/g, '').trim();
+            
+            if (kw.length > 35) {
+                showModal("Mỗi từ khóa không được vượt quá 35 ký tự.");
+                inputEl.value = '';
+                return;
+            }
+
+            if (kw && state.keywords.length < 10 && !state.keywords.includes(kw)) {
+                state.keywords.push(kw);
+                renderKeywords(bId);
+                saveDraft();
+            }
+            inputEl.value = '';
+        }
+        inputEl.placeholder = state.keywords.length >= 10 ? "Đã đạt tối đa 10 tags" : "Gõ từ khóa và bấm phẩy (,) hoặc chấm phẩy (;)...";
+        inputEl.disabled = state.keywords.length >= 10;
+    }
+
+    function renderKeywords(bId) {
+        const container = document.getElementById(`kw-container-${bId}`);
+        const state = companiesState[bId];
+        container.innerHTML = '';
+        state.keywords.forEach((kw, i) => {
+            container.innerHTML += `<span class="bg-gray-100 text-sm px-2 py-1 rounded flex items-center">${kw} <button type="button" onclick="removeKw('${bId}', ${i})" class="ml-2 text-gray-400 hover:text-red-600 font-bold">&times;</button></span>`;
+        });
+        document.getElementById(`cnt-kw-${bId}`).innerText = `${state.keywords.length}/10`;
+    }
+
+    function removeKw(bId, index) {
+        companiesState[bId].keywords.splice(index, 1);
+        renderKeywords(bId);
+        const inputEl = document.getElementById(`input-kw-${bId}`);
+        inputEl.disabled = false;
+        inputEl.placeholder = "Gõ từ khóa và bấm phẩy (,) hoặc chấm phẩy (;)...";
+        saveDraft();
+    }
+
+    function addSocial(bId, presetType = '') {
+        const list = document.getElementById(`soc-list-${bId}`);
+        if (!list) return;
+        const currentCount = list.querySelectorAll('.soc-row').length;
+        if (currentCount >= 6) return;
+
+        const rowId = `soc-${bId}-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
+        const div = document.createElement('div');
+        div.id = rowId;
+        div.className = 'flex gap-2 items-center soc-row p-1.5 border border-gray-200 rounded-lg bg-gray-50/50 mb-2';
+        div.innerHTML = `
+            <input type="text" maxlength="25" value="${presetType}" placeholder="Loại kênh (VD: Facebook)" class="w-1/3 rounded-md border border-gray-300 px-3 py-2 text-sm bg-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 soc-type">
+            <input type="url" placeholder="https://..." class="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm bg-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 soc-url">
+            <button type="button" onclick="this.closest('.soc-row').remove(); updateSocCount('${bId}'); saveDraft();" class="text-gray-400 hover:text-red-600 font-bold px-2 text-xl leading-none" title="Xóa">&times;</button>
+        `;
+        list.appendChild(div);
+        updateSocCount(bId); 
+        saveDraft();
+    }
+
+    // ==========================================
+    // 5. NÉN, TẠO PREVIEW & UPLOAD (FILE + LINK)
+    // ==========================================
+    function compressImage(file, maxSize, isSquare = false) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (e) => {
+                const img = new Image();
+                img.src = e.target.result;
+                img.onload = () => {
+                    let w = img.width, h = img.height;
+                    let startX = 0, startY = 0;
+
+                    if (isSquare) {
+                        const minEdge = Math.min(w, h);
+                        startX = (w - minEdge) / 2;
+                        startY = (h - minEdge) / 2;
+                        w = minEdge; h = minEdge;
+                    }
+
+                    if (w > maxSize || h > maxSize) {
+                        const ratio = Math.min(maxSize / w, maxSize / h);
+                        w *= ratio; h *= ratio;
+                    }
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = w; canvas.height = h;
+                    const ctx = canvas.getContext('2d');
+                    
+                    if (isSquare) {
+                        const minEdge = Math.min(img.width, img.height);
+                        ctx.drawImage(img, startX, startY, minEdge, minEdge, 0, 0, w, h);
+                    } else {
+                        ctx.drawImage(img, 0, 0, w, h);
+                    }
+
+                    canvas.toBlob(blob => {
+                        resolve(new File([blob], file.name.replace(/\.[^/.]+$/, ".jpg"), { type: 'image/jpeg' }));
+                    }, 'image/jpeg', 0.85);
+                };
+                img.onerror = reject;
+            };
+            reader.onerror = reject;
+        });
+    }
+
+    async function pushToR2(file, folderName = "Company") {
+        const resUrl = await fetch("https://binn8nauto.io.vn/webhook/url-upload-form", {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ fileName: file.name, contentType: file.type, folder: folderName })
+        });
+        if(!resUrl.ok) throw new Error("Lỗi lấy URL upload");
+        let data = await resUrl.json();
+        if(Array.isArray(data)) data = data[0];
+        
+        const uploadUrl = data?.data?.uploadUrl || data?.uploadUrl;
+        const fileUrl = data?.data?.fileUrl || data?.fileUrl;
+
+        const resUp = await fetch(uploadUrl, { method: "PUT", headers: { "Content-Type": file.type }, body: file });
+        if(!resUp.ok) throw new Error("Lỗi đẩy lên R2");
+        return fileUrl;
+    }
+
+    function checkImageValid(url) {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => resolve(true);
+            img.onerror = () => resolve(false);
+            img.src = url;
+        });
+    }
+
+    // --- XỬ LÝ LOGO DOANH NGHIỆP ---
+    function toggleLogoLink(bId) {
+        const wrap = document.getElementById(`logo-link-wrap-${bId}`);
+        const btn = document.getElementById(`btn-logo-url-${bId}`);
+        wrap.classList.toggle('hidden');
+        if (!wrap.classList.contains('hidden')) {
+            btn.className = "bg-blue-50 text-blue-600 border border-blue-200 text-sm px-3 py-1.5 rounded-md font-semibold transition-colors shadow-sm";
+        } else {
+            btn.className = "bg-white border border-gray-300 text-sm px-3 py-1.5 rounded-md hover:bg-gray-50 font-semibold text-gray-700 transition-colors shadow-sm";
+        }
+    }
+
+    function cancelLogo(bId) {
+        companiesState[bId].logoItem = null;
+        document.getElementById(`logo-img-${bId}`).src = '';
+        document.getElementById(`logo-wrap-${bId}`).classList.add('hidden');
+        document.getElementById(`logo-status-${bId}`).innerHTML = 'Chưa có ảnh';
+        document.getElementById(`btn-logo-upload-${bId}`).classList.add('hidden');
+        document.getElementById(`btn-logo-cancel-${bId}`).classList.add('hidden');
+        document.getElementById(`btn-logo-url-${bId}`).classList.remove('hidden');
+        document.getElementById(`file-logo-${bId}`).value = '';
+        checkPendingUploads();
+    }
+
+    async function handleLogoLink(bId) {
+        const input = document.getElementById(`logo-link-input-${bId}`);
+        const url = input.value.trim();
+        const status = document.getElementById(`logo-status-${bId}`);
+        if (!url) return;
+        
+        status.innerHTML = `<span class="text-gray-600 font-bold animate-pulse">Đang thử...</span>`;
+        const isValid = await checkImageValid(url);
+        
+        if (isValid) {
+            companiesState[bId].logoItem = { type: 'external', url: url };
+            document.getElementById(`logo-img-${bId}`).src = url;
+            document.getElementById(`logo-wrap-${bId}`).classList.remove('hidden');
+            
+            const btnCopy = document.getElementById(`logo-copy-${bId}`);
+            btnCopy.classList.remove('hidden');
+            btnCopy.setAttribute('onclick', `copyUrl('${url}')`);
+
+            status.innerHTML = TICK_ICON;
+            
+            document.getElementById(`logo-link-wrap-${bId}`).classList.add('hidden');
+            document.getElementById(`btn-logo-upload-${bId}`).classList.add('hidden');
+            document.getElementById(`btn-logo-cancel-${bId}`).classList.add('hidden');
+            document.getElementById(`btn-logo-url-${bId}`).classList.remove('hidden');
+            document.getElementById(`btn-logo-url-${bId}`).className = "bg-white border border-gray-300 text-sm px-3 py-1.5 rounded-md hover:bg-gray-50 font-semibold text-gray-700 transition-colors shadow-sm";
+            input.value = '';
+            checkPendingUploads();
+            saveDraft();
+        } else {
+            status.innerHTML = `<span class="text-red-600 font-bold">Link lỗi</span>`;
+        }
+    }
+
+    async function handleLogoSelect(bId, input) {
+        if(!input.files[0]) return;
+        const status = document.getElementById(`logo-status-${bId}`);
+        try {
+            status.innerHTML = `<span class="text-gray-500 font-bold animate-pulse">Đang xử lý...</span>`;
+            const compressedFile = await compressImage(input.files[0], 1000, true); 
+            const previewUrl = URL.createObjectURL(compressedFile);
+            
+            companiesState[bId].logoItem = { type: 'pending', file: compressedFile, url: previewUrl };
+            
+            document.getElementById(`logo-img-${bId}`).src = previewUrl;
+            document.getElementById(`logo-wrap-${bId}`).classList.remove('hidden');
+            document.getElementById(`logo-copy-${bId}`).classList.add('hidden'); 
+            status.innerHTML = `<span class="text-gray-500 font-medium">Chưa lưu</span>`;
+            
+            document.getElementById(`btn-logo-upload-${bId}`).classList.remove('hidden');
+            document.getElementById(`btn-logo-cancel-${bId}`).classList.remove('hidden');
+            document.getElementById(`logo-link-wrap-${bId}`).classList.add('hidden');
+            document.getElementById(`btn-logo-url-${bId}`).classList.add('hidden');
+            
+            checkPendingUploads();
+        } catch (e) {
+            status.innerHTML = `<span class="text-red-600">Lỗi xử lý</span>`;
+        }
+    }
+
+    async function uploadLogo(bId) {
+        const state = companiesState[bId];
+        if(!state.logoItem || state.logoItem.type !== 'pending') return;
+
+        const btnUp = document.getElementById(`btn-logo-upload-${bId}`);
+        const status = document.getElementById(`logo-status-${bId}`);
+
+        btnUp.disabled = true;
+        btnUp.innerText = "Đang lưu...";
+        status.innerHTML = `<span class="text-gray-500 font-bold animate-pulse">Đang đẩy lên...</span>`;
+
+        try {
+            const uploadedUrl = await pushToR2(state.logoItem.file, "logo_company");
+            state.logoItem = { type: 'uploaded', file: null, url: uploadedUrl };
+            
+            status.innerHTML = TICK_ICON;
+            
+            btnUp.classList.add('hidden');
+            document.getElementById(`btn-logo-cancel-${bId}`).classList.add('hidden');
+            document.getElementById(`btn-logo-url-${bId}`).classList.remove('hidden');
+
+            const btnCopy = document.getElementById(`logo-copy-${bId}`);
+            btnCopy.classList.remove('hidden');
+            btnCopy.setAttribute('onclick', `copyUrl('${uploadedUrl}')`);
+        } catch(e) {
+            status.innerHTML = `<span class="text-red-600 font-bold">Lỗi tải ảnh</span>`;
+        } finally {
+            btnUp.disabled = false;
+            btnUp.innerText = "Lưu";
+            checkPendingUploads();
+            saveDraft();
+        }
+    }
+
+    // --- XỬ LÝ GALLERY DOANH NGHIỆP ---
+    function toggleGalLink(bId) {
+        const wrap = document.getElementById(`gal-link-wrap-${bId}`);
+        const btn = document.getElementById(`btn-gal-url-${bId}`);
+        wrap.classList.toggle('hidden');
+        if (!wrap.classList.contains('hidden')) {
+            btn.className = "bg-blue-50 text-blue-600 border border-blue-200 shadow-sm text-sm px-3 py-1.5 rounded-md font-semibold transition-colors";
+        } else {
+            btn.className = "bg-white border border-gray-300 shadow-sm text-sm px-3 py-1.5 rounded-md hover:bg-gray-100 font-semibold text-gray-700 transition-colors";
+        }
+    }
+
+    function cancelGallery(bId) {
+        companiesState[bId].galleryItems = companiesState[bId].galleryItems.filter(item => item.type !== 'pending');
+        renderGallery(bId);
+        document.getElementById(`file-gal-${bId}`).value = '';
+        checkPendingUploads();
+    }
+
+    async function handleGalLink(bId) {
+        const state = companiesState[bId];
+        if (state.galleryItems.length >= 5) {
+            return showModal("Chỉ được tải tối đa 5 ảnh.");
+        }
+        
+        const input = document.getElementById(`gal-link-input-${bId}`);
+        const url = input.value.trim();
+        if (!url) return;
+        
+        const btn = input.nextElementSibling;
+        const oldText = btn.innerText;
+        btn.innerText = 'Đang ktra...';
+        btn.disabled = true;
+
+        const isValid = await checkImageValid(url);
+        if (isValid) {
+            state.galleryItems.push({
+                id: Math.random().toString(36).substr(2, 9),
+                type: 'external',
+                url: url
+            });
+            renderGallery(bId);
+            input.value = '';
+            document.getElementById(`gal-link-wrap-${bId}`).classList.add('hidden');
+            document.getElementById(`btn-gal-url-${bId}`).className = "bg-white border border-gray-300 shadow-sm text-sm px-3 py-1.5 rounded-md hover:bg-gray-100 font-semibold text-gray-700 transition-colors";
+            checkPendingUploads();
+            saveDraft();
+        } else {
+            showModal("Link ảnh không hợp lệ hoặc không thể truy cập được!");
+        }
+        
+        btn.innerText = oldText;
+        btn.disabled = false;
+    }
+
+    async function handleGallerySelect(bId, input) {
+        const state = companiesState[bId];
+        const files = Array.from(input.files);
+        const status = document.getElementById(`gal-status-${bId}`);
+
+        if (state.galleryItems.length + files.length > 5) {
+            return showModal("Chỉ được tải tối đa 5 ảnh cho mỗi doanh nghiệp.");
+        }
+
+        status.innerHTML = `<span class="text-gray-500 font-bold animate-pulse">Đang nén ${files.length} ảnh...</span>`;
+        
+        for (let i = 0; i < files.length; i++) {
+            try {
+                const compressedFile = await compressImage(files[i], 1500, false); 
+                const previewUrl = URL.createObjectURL(compressedFile);
+                state.galleryItems.push({
+                    id: Math.random().toString(36).substr(2, 9),
+                    type: 'pending',
+                    file: compressedFile,
+                    url: previewUrl
+                });
+            } catch(e) { console.error("Lỗi nén ảnh", e); }
+        }
+        
+        renderGallery(bId); 
+        input.value = ''; 
+        checkPendingUploads();
+    }
+
+    function renderGallery(bId) {
+        const state = companiesState[bId];
+        const grid = document.getElementById(`gal-grid-${bId}`);
+        grid.innerHTML = '';
+        
+        let pendingCount = 0;
+
+        state.galleryItems.forEach((item, idx) => {
+            if(item.type === 'pending') pendingCount++;
+            
+            let badgeHTML = '';
+            let copyBtnHTML = '';
+            if (item.type === 'uploaded' || item.type === 'external') {
+                badgeHTML = `<div class="absolute top-1.5 left-1.5 bg-green-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs shadow-md" title="Đã lưu">✓</div>`;
+                copyBtnHTML = `<button type="button" onclick="copyUrl('${item.url}')" class="absolute top-1.5 right-9 bg-white/90 rounded text-gray-700 w-6 h-6 flex items-center justify-center font-bold text-sm opacity-0 group-hover:opacity-100 shadow-sm hover:bg-white transition-opacity" title="Copy Link"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg></button>`;
+            }
+
+            grid.insertAdjacentHTML('beforeend', `
+                <div draggable="true" 
+                     ondragstart="dragStart(event, '${bId}', ${idx})" 
+                     ondragover="dragOver(event)" 
+                     ondragleave="dragLeave(event)"
+                     ondrop="drop(event, '${bId}', ${idx})"
+                     class="relative w-full aspect-video border ${item.type==='pending'?'border-gray-400 border-2':'border-gray-200'} rounded-lg overflow-hidden group cursor-move hover:shadow-md transition-shadow bg-gray-100">
+                    <img src="${item.url}" class="w-full h-full object-cover">
+                    ${badgeHTML}
+                    ${copyBtnHTML}
+                    <button type="button" onclick="removeGalleryImg('${bId}', ${idx})" class="absolute top-1.5 right-1.5 bg-white/90 rounded-full text-red-600 w-6 h-6 flex items-center justify-center font-bold text-sm opacity-0 group-hover:opacity-100 shadow-sm hover:bg-white transition-opacity" title="Xóa">&times;</button>
+                    ${idx === 0 ? '<div class="absolute bottom-0 left-0 right-0 bg-gray-800/90 text-white text-[10px] text-center py-1.5 font-bold uppercase tracking-wider">BANNER CHÍNH</div>' : ''}
+                </div>
+            `);
+        });
+
+        document.getElementById(`gal-status-${bId}`).innerText = `Đã chọn ${state.galleryItems.length}/5`;
+        
+        const btnUpload = document.getElementById(`btn-gal-upload-${bId}`);
+        const btnCancel = document.getElementById(`btn-gal-cancel-${bId}`);
+        const btnUrl = document.getElementById(`btn-gal-url-${bId}`);
+
+        if (pendingCount > 0) {
+            btnUpload.classList.remove('hidden');
+            btnCancel.classList.remove('hidden');
+            btnUrl.classList.add('hidden');
+            document.getElementById(`gal-link-wrap-${bId}`).classList.add('hidden');
+        } else {
+            btnUpload.classList.add('hidden');
+            btnCancel.classList.add('hidden');
+            btnUrl.classList.remove('hidden');
+        }
+    }
+
+    async function uploadGallery(bId) {
+        const state = companiesState[bId];
+        const btnUp = document.getElementById(`btn-gal-upload-${bId}`);
+        const status = document.getElementById(`gal-status-${bId}`);
+
+        const pendingItems = state.galleryItems.filter(i => i.type === 'pending');
+        if(pendingItems.length === 0) return;
+
+        btnUp.disabled = true;
+        btnUp.innerText = "Đang lưu...";
+        status.innerHTML = `<span class="text-gray-500 font-bold animate-pulse">Đang đẩy lên...</span>`;
+
+        try {
+            for(let i=0; i<state.galleryItems.length; i++) {
+                if(state.galleryItems[i].type === 'pending') {
+                    const uploadedUrl = await pushToR2(state.galleryItems[i].file, "Company");
+                    state.galleryItems[i].url = uploadedUrl;
+                    state.galleryItems[i].type = 'uploaded';
+                    state.galleryItems[i].file = null;
+                }
+            }
+            status.innerHTML = `<span class="text-black font-bold">Đã lưu ảnh mới</span>`;
+            renderGallery(bId); 
+        } catch(e) {
+            status.innerHTML = `<span class="text-red-600 font-bold">Lỗi xử lý</span>`;
+            showModal("Có lỗi trong quá trình lưu ảnh. Vui lòng thử lại.");
+        } finally {
+            btnUp.disabled = false;
+            btnUp.innerText = "Lưu";
+            checkPendingUploads();
+            saveDraft();
+        }
+    }
+
+    function removeGalleryImg(bId, index) {
+        companiesState[bId].galleryItems.splice(index, 1);
+        renderGallery(bId);
+        checkPendingUploads();
+        saveDraft();
+    }
+
+    function dragStart(e, bId, index) {
+        e.dataTransfer.setData('text/plain', JSON.stringify({bId, index}));
+        e.target.classList.add('opacity-50');
+    }
+    function dragOver(e) {
+        e.preventDefault(); 
+        e.currentTarget.classList.add('drag-over');
+    }
+    function dragLeave(e) {
+        e.currentTarget.classList.remove('drag-over');
+    }
+    function drop(e, targetBId, targetIndex) {
+        e.preventDefault();
+        e.currentTarget.classList.remove('drag-over');
+        try {
+            const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+            if(data.bId !== targetBId) return;
+            const state = companiesState[targetBId];
+            const draggedItem = state.galleryItems.splice(data.index, 1)[0];
+            state.galleryItems.splice(targetIndex, 0, draggedItem);
+            renderGallery(targetBId); 
+            checkPendingUploads();
+            saveDraft();
+        } catch(e){}
+    }
+
+
+    // ==========================================
+    // 6. GOM DATA VÀ SUBMIT (ARRAY CÔNG TY VÀ HỘI VIÊN)
+    // ==========================================
+    async function submitForm() {
+        const btn = document.getElementById('btn-submit');
+        
+        let companiesPayload = [];
+        const totalCompanies = Object.keys(companiesState).length;
+        
+        for (let bId in companiesState) {
+            const state = companiesState[bId];
+            const cIndex = bId.split('-')[1];
+            
+            if (state.step === 'tax_check') {
+                return showModal(`DOANH NGHIỆP ${cIndex} chưa tra cứu Mã số thuế. Vui lòng kiểm tra lại.`);
+            }
+
+            const pos = document.getElementById(`pos-${bId}`).value.trim();
+            if(!pos) return showModal(`Vui lòng nhập Chức vụ tại DOANH NGHIỆP ${cIndex}`);
+
+            let companyObj = {
+                is_existing: state.isExisting,
+                Company_tax: state.tax,
+                Link_Position: pos,
+                Link_IsPrimary: totalCompanies === 1 ? true : document.getElementById(`primary-${bId}`).checked
+            };
+
+            if (state.isExisting && state.companyId) {
+                companyObj.id = state.companyId;
+            }
+
+            if (!state.isExisting) {
+                if (state.logoItem && state.logoItem.type === 'pending') {
+                    return showModal(`DOANH NGHIỆP ${cIndex} có Logo chưa được lưu. Vui lòng bấm "Lưu" trước khi gửi.`);
+                }
+                if (state.galleryItems.some(i => i.type === 'pending')) {
+                    return showModal(`DOANH NGHIỆP ${cIndex} có ảnh dự án chưa được lưu. Vui lòng bấm "Lưu" trước khi gửi.`);
+                }
+
+                const name = document.getElementById(`fullname-${bId}`).value.trim();
+                let phone = document.getElementById(`phone-${bId}`).value.replace(/\D/g, '');
+                const email = document.getElementById(`email-${bId}`).value.trim();
+                const birth = document.getElementById(`birth-${bId}`).value;
+                
+                if(!name || !phone || !email || !birth) return showModal(`Vui lòng nhập đủ Tên, Ngày thành lập, SĐT, Email tại DOANH NGHIỆP ${cIndex}`);
+                if(phone.startsWith('0')) phone = '84' + phone.substring(1);
+
+                const indIds = state.selectedInd || [];
+                if(indIds.length === 0) return showModal(`Chọn ít nhất 1 Ngành nghề kinh doanh cho DOANH NGHIỆP ${cIndex}`);
+
+                const socArr = [];
+                document.querySelectorAll(`#soc-list-${bId} .soc-row`).forEach(row => {
+                    const t = row.querySelector('.soc-type').value.trim();
+                    const u = row.querySelector('.soc-url').value.trim();
+                    if(t && u) socArr.push({ type: t, url: u });
+                });
+
+                companyObj.Company_fullname = name;
+                companyObj.Company_shortname = document.getElementById(`shortname-${bId}`).value.trim();
+                companyObj.Company_phone = phone;
+                companyObj.Company_email = email;
+                companyObj.Company_website = document.getElementById(`web-${bId}`).value.trim();
+                companyObj.Company_address = document.getElementById(`address-${bId}`).value.trim();
+                companyObj.Company_birth = birth;
+                companyObj.Company_bio = document.getElementById(`bio-${bId}`).value.trim();
+                companyObj.Company_content = document.getElementById(`content-${bId}`).value.trim();
+                
+                companyObj.Company_logo_url = state.logoItem ? state.logoItem.url : "";
+                
+                const finalGalleryUrls = state.galleryItems.map(i => i.url);
+                companyObj.Company_images_url = finalGalleryUrls;
+                companyObj.Company_banner_url = finalGalleryUrls.length > 0 ? finalGalleryUrls[0] : ""; 
+                
+                companyObj.Company_industry_id = indIds;
+                companyObj.Company_keyword = state.keywords;
+                companyObj.Company_social = socArr;
+            }
+
+            companiesPayload.push(companyObj);
+        }
+
+        if(companiesPayload.length === 0) return showModal("Không có dữ liệu doanh nghiệp nào để gửi!");
+
+        if (memberAvatarState && memberAvatarState.type === 'pending') {
+            return showModal("Ảnh đại diện Hội viên chưa được lưu. Vui lòng bấm 'Lưu' ở Bước 1.");
+        }
+        const memberPayload = getMemberData();
+
+        const finalPayload = {
+            Member: memberPayload,
+            Companies: companiesPayload
+        };
+
+        try {
+            btn.disabled = true;
+            btn.innerHTML = "ĐANG GỬI... ⏳";
+            btn.classList.add('cursor-not-allowed', 'opacity-80');
+            
+            console.log("PAYLOAD GỬI ĐI TOÀN BỘ:", finalPayload);
+
+            const res = await fetch("https://binn8nauto.io.vn/webhook/form/submit", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(finalPayload) 
+            });
+
+            const respData = await res.json();
+            const targetNode = Array.isArray(respData) ? respData[0] : respData;
+
+            if (res.ok && targetNode && targetNode.status === 'success') {
+                showModal("Hồ sơ đã được gửi thành công lên hệ thống!");
+                localStorage.removeItem('yba_form_draft_full');
+                lockEntireForm();
+            } else {
+                throw new Error(targetNode?.message || "Máy chủ từ chối tiếp nhận dữ liệu.");
+            }
+            
+        } catch (err) {
+            console.error(err);
+            showModal("Lỗi: " + err.message);
+            btn.disabled = false;
+            btn.innerHTML = "HOÀN TẤT & GỬI HỒ SƠ";
+            btn.classList.remove('cursor-not-allowed', 'opacity-80');
+        }
+    }
+
+    // ==========================================
+    // 7. CƠ CHẾ AUTO-SAVE FULL STATE 
+    // ==========================================
+    let isRestoring = false;
+    let draftTimeout = null;
+
+    function triggerSaveDraft() {
+        if(isRestoring) return;
+        clearTimeout(draftTimeout);
+        draftTimeout = setTimeout(saveDraft, 500);
+    }
+
+    function saveDraft() {
+        if(isRestoring) return;
+        const draft = {
+            inputs: {},
+            checkboxes: {},
+            radios: {},
+            memKeywords: memKeywords,
+            selectedMemExp: Array.from(selectedMemExp),
+            memberAvatarState: memberAvatarState,
+            companiesState: companiesState,
+            blockCounter: blockCounter,
+            htmlState: {}
+        };
+
+        // Lưu text, textarea, select
+        document.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="url"], textarea, select').forEach(el => {
+            if (el.id) draft.inputs[el.id] = el.value;
+        });
+
+        // Lưu Checkbox
+        document.querySelectorAll('input[type="checkbox"]').forEach(el => {
+            if (el.name) { draft.checkboxes[el.name + '-' + el.value] = el.checked; }
+            if (el.id) { draft.checkboxes[el.id] = el.checked; }
+        });
+
+        // Lưu Radio
+        document.querySelectorAll('input[type="radio"]').forEach(el => {
+            if (el.name && el.checked) { draft.radios[el.name] = el.id; }
+        });
+
+        // Lưu các danh sách động HTML
+        draft.htmlState['mem-soc-list'] = document.getElementById('mem-soc-list').innerHTML;
+        for (const bId in companiesState) {
+            const list = document.getElementById(`soc-list-${bId}`);
+            if(list) draft.htmlState[`soc-list-${bId}`] = list.innerHTML;
+        }
+
+        localStorage.setItem('yba_form_draft_full', JSON.stringify(draft));
+    }
+
+    // Lắng nghe thao tác
+    document.addEventListener('input', triggerSaveDraft);
+    document.addEventListener('change', triggerSaveDraft);
+
+    // Chặn F5 và Xóa Cache nếu là Hard Reload
+    window.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'F5' || e.key === 'r' || e.key === 'R')) {
+            localStorage.removeItem('yba_form_draft_full');
+        }
+    });
+
+    async function restoreDraft() {
+        try {
+            const draftStr = localStorage.getItem('yba_form_draft_full');
+            if (!draftStr) return;
+            
+            isRestoring = true;
+            const draft = JSON.parse(draftStr);
+            
+            // 1. Phục hồi số lượng công ty
+            while (blockCounter < draft.blockCounter) {
+                addCompanyBlock(true); // TRUYỀN TRUE ĐỂ KHÔNG TẠO RÁC MXH
+            }
+
+            // Phục hồi state mảng & biến logic
+            memKeywords = draft.memKeywords || [];
+            selectedMemExp = new Set(draft.selectedMemExp || []);
+            
+            for (const bId in draft.companiesState) {
+                companiesState[bId] = draft.companiesState[bId];
+                if (!companiesState[bId].selectedInd) companiesState[bId].selectedInd = [];
+                if (!companiesState[bId].searchIndKw) companiesState[bId].searchIndKw = '';
+            }
+            
+            memberAvatarState = draft.memberAvatarState;
+            if(memberAvatarState && (memberAvatarState.type === 'uploaded' || memberAvatarState.type === 'external')) {
+                document.getElementById('mem-ava-img').src = memberAvatarState.url;
+                document.getElementById('mem-ava-wrap').classList.remove('hidden');
+                document.getElementById('mem-ava-status').innerHTML = TICK_ICON;
+                document.getElementById('btn-mem-ava-url').classList.add('hidden');
+                document.getElementById('btn-mem-ava-file').classList.add('hidden');
+            } else { memberAvatarState = null; }
+
+            // 2. Tải API (Tự động render lại UI check từ Set vừa nạp)
+            await Promise.all([loadGlobalExpertise(), loadGlobalIndustries('comp-1')]);
+
+            // 3. Render giao diện còn lại
+            renderMemKeywords();
+            
+            for (const bId in companiesState) {
+                if(!companiesState[bId].isExisting) {
+                    renderIndustries(bId);
+                }
+
+                if (companiesState[bId].isExisting) {
+                    document.getElementById(`sec-new-${bId}`).classList.remove('hidden');
+                    document.getElementById(`sec-link-${bId}`).classList.remove('hidden');
+                    document.getElementById(`msg-tax-wrap-${bId}`).classList.remove('hidden');
+                    document.getElementById(`input-tax-${bId}`).disabled = true;
+                    document.getElementById(`btn-tax-${bId}`).classList.add('hidden');
+                    document.getElementById(`btn-reset-tax-${bId}`).classList.remove('hidden');
+                    document.getElementById(`tax-label-${bId}`).innerHTML = `Mã số thuế công ty <span class="required-mark">*</span>`;
+                    document.getElementById(`tax-subnote-${bId}`).classList.add('hidden');
+                    
+                    const secNew = document.getElementById(`sec-new-${bId}`);
+                    secNew.querySelectorAll('input, textarea').forEach(el => {
+                        el.readOnly = true; el.disabled = true; el.classList.add('readonly-mode');
+                    });
+                    secNew.querySelectorAll('button').forEach(btn => btn.classList.add('hidden'));
+                } else if(companiesState[bId].step === 'new_form') {
+                    document.getElementById(`sec-new-${bId}`).classList.remove('hidden');
+                    document.getElementById(`sec-link-${bId}`).classList.remove('hidden');
+                    document.getElementById(`input-tax-${bId}`).disabled = true;
+                    document.getElementById(`btn-tax-${bId}`).classList.add('hidden');
+                    document.getElementById(`btn-reset-tax-${bId}`).classList.remove('hidden');
+                    document.getElementById(`tax-label-${bId}`).innerHTML = `Mã số thuế công ty <span class="required-mark">*</span>`;
+                    document.getElementById(`tax-subnote-${bId}`).classList.add('hidden');
+                }
+
+                renderKeywords(bId);
+                
+                // Loại bỏ những ảnh chưa lưu tránh bị hỏng UI
+                if(companiesState[bId].logoItem && companiesState[bId].logoItem.type === 'pending') companiesState[bId].logoItem = null;
+                companiesState[bId].galleryItems = companiesState[bId].galleryItems.filter(i => i.type !== 'pending');
+                
+                if(companiesState[bId].logoItem && !companiesState[bId].isExisting) {
+                    document.getElementById(`logo-img-${bId}`).src = companiesState[bId].logoItem.url;
+                    document.getElementById(`logo-wrap-${bId}`).classList.remove('hidden');
+                    document.getElementById(`logo-status-${bId}`).innerHTML = TICK_ICON;
+                    document.getElementById(`btn-logo-file-${bId}`).classList.add('hidden');
+                    document.getElementById(`btn-logo-url-${bId}`).classList.add('hidden');
+                }
+                
+                renderGallery(bId);
+            }
+
+            // 4. Phục hồi HTML MXH
+            if (draft.htmlState['mem-soc-list']) document.getElementById('mem-soc-list').innerHTML = draft.htmlState['mem-soc-list'];
+            for (const bId in draft.companiesState) {
+                if (draft.htmlState[`soc-list-${bId}`]) document.getElementById(`soc-list-${bId}`).innerHTML = draft.htmlState[`soc-list-${bId}`];
+            }
+
+            // 5. Điền Text Inputs
+            for (const [id, value] of Object.entries(draft.inputs)) {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.value = value;
+                    if (id.includes('bio') || id.includes('content')) { el.dispatchEvent(new Event('input')); }
+                }
+            }
+
+            // 6. Điền Checkboxes khác & Radios 
+            setTimeout(() => {
+                document.querySelectorAll('input[type="checkbox"]').forEach(el => {
+                    if(el.name !== 'mem-expert' && !el.name.startsWith('ind-')) {
+                        const key1 = el.name + '-' + el.value;
+                        const key2 = el.id;
+                        if (draft.checkboxes[key1] || draft.checkboxes[key2]) el.checked = true;
+                    }
+                });
+                
+                for (const name in draft.radios) {
+                    const el = document.getElementById(draft.radios[name]);
+                    if(el) el.checked = true;
+                }
+                
+                checkPendingUploads();
+                updateAddCompanyBtnVisibility();
+                isRestoring = false;
+            }, 100);
+
+        } catch (e) {
+            console.error("Lỗi phục hồi bản nháp:", e);
+            isRestoring = false;
+        }
+    }
+
+    // ==========================================
+    // KHỞI CHẠY (INIT)
+    // ==========================================
+    window.onload = function() {
+        if(!localStorage.getItem('yba_form_draft_full')) {
+            addCompanyBlock();
+        } else {
+            restoreDraft();
+        }
+        updateAddCompanyBtnVisibility();
+    };
+
+</script>
+
+</body>
+</html>
