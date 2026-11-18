@@ -218,16 +218,13 @@
                 <div>
                     <div class="flex justify-between items-end mb-1.5">
                         <label class="form-label !mb-0">Kinh nghiệm chuyên môn <span class="required-mark">*</span></label>
-                        <button id="btn-mem-exp" onclick="loadGlobalExpertise()" type="button" class="bg-blue-600 hover:bg-blue-700 text-white flex items-center text-xs font-semibold px-3 py-1.5 rounded-md transition-colors shadow-sm">
-                            Tải danh sách
-                        </button>
                     </div>
                     <div class="form-container overflow-hidden flex flex-col !p-0 border border-gray-300">
                         <div class="p-2 border-b border-gray-200 bg-white">
                             <input type="text" id="search-mem-exp" disabled oninput="searchExp(this.value)" placeholder="Tìm kiếm kinh nghiệm chuyên môn..." class="w-full bg-gray-50 p-2 rounded text-sm outline-none disabled:opacity-50">
                         </div>
                         <div id="mem-exp-list" class="h-40 overflow-y-auto p-2 space-y-1 text-sm bg-white">
-                            <div class="text-center text-gray-400 text-sm mt-12">Vui lòng bấm "Tải danh sách" bên trên.</div>
+                            <div class="text-center text-gray-400 text-sm mt-12 animate-pulse">Đang tải danh sách...</div>
                         </div>
                     </div>
                 </div>
@@ -426,7 +423,7 @@
         }
 
         if(selectedMemExp.size === 0) {
-            return showModal("Anh/chị bấm nút Tải danh sách rồi chọn ít nhất 1 <b>kinh nghiệm chuyên môn</b>.");
+            return showModal("Anh/chị chọn ít nhất 1 <b>kinh nghiệm chuyên môn</b> trong danh sách.");
         }
 
         document.getElementById('page-1').classList.add('hidden');
@@ -448,7 +445,6 @@
     async function loadGlobalExpertise() {
         const container = document.getElementById('mem-exp-list');
         const searchInput = document.getElementById('search-mem-exp');
-        const btnExp = document.getElementById('btn-mem-exp');
 
         if (globalExpertise.length > 0) {
             renderExpertise();
@@ -456,9 +452,6 @@
             return;
         }
 
-        const originalBtnText = btnExp.innerHTML;
-        btnExp.innerText = "Đang tải...";
-        btnExp.disabled = true;
         container.innerHTML = '<div class="text-center text-gray-500 text-sm mt-12 animate-pulse">Đang tải, anh/chị chờ một chút...</div>';
         
         try {
@@ -485,10 +478,7 @@
             renderExpertise();
             searchInput.disabled = false;
         } catch (error) {
-            container.innerHTML = `<div class="text-center text-red-600 text-sm mt-12 px-4">${error.message}</div>`;
-        } finally {
-            btnExp.innerHTML = originalBtnText;
-            btnExp.disabled = false;
+            container.innerHTML = `<div class="text-center text-red-600 text-sm mt-10 px-4">${error.message}<br><button type="button" onclick="loadGlobalExpertise()" class="mt-2 text-blue-600 font-bold underline">Thử lại</button></div>`;
         }
     }
 
@@ -714,6 +704,7 @@
             document.getElementById('mem-ava-link-wrap').classList.add('hidden');
 
             checkPendingUploads();
+            uploadMemAva(); // tự lưu ngay sau khi chọn ảnh
         } catch (e) {
             status.innerHTML = `<span class="text-red-600 font-bold">Có lỗi, thử lại</span>`;
         }
@@ -792,7 +783,6 @@
     async function loadGlobalIndustries(bId) {
         const container = document.getElementById(`ind-list-${bId}`);
         const searchInput = document.getElementById(`search-ind-${bId}`);
-        const btnInd = document.getElementById(`btn-ind-${bId}`);
 
         if (globalIndustries.length > 0) {
             renderIndustries(bId);
@@ -800,9 +790,6 @@
             return;
         }
 
-        const originalBtnText = btnInd.innerHTML;
-        btnInd.innerText = "Đang tải...";
-        btnInd.disabled = true;
         container.innerHTML = '<div class="text-center text-gray-500 text-sm mt-12 animate-pulse">Đang tải, anh/chị chờ một chút...</div>';
 
         try {
@@ -830,10 +817,7 @@
             renderIndustries(bId);
             searchInput.disabled = false;
         } catch (error) {
-            container.innerHTML = `<div class="text-center text-red-600 text-sm mt-12 px-4">${error.message}</div>`;
-        } finally {
-            btnInd.innerHTML = originalBtnText;
-            btnInd.disabled = false;
+            container.innerHTML = `<div class="text-center text-red-600 text-sm mt-10 px-4">${error.message}<br><button type="button" onclick="loadGlobalIndustries('${bId}')" class="mt-2 text-blue-600 font-bold underline">Thử lại</button></div>`;
         }
     }
 
@@ -1026,28 +1010,22 @@
                                 <div>
                                     <div class="flex justify-between items-end mb-1.5">
                                         <label class="form-label" style="margin-bottom:0">Thuộc đối tượng <span class="required-mark">*</span></label>
-                                        <button id="btn-type-${bId}" onclick="loadGlobalIndustries('${bId}')" type="button" class="bg-blue-600 hover:bg-blue-700 text-white flex items-center text-xs font-semibold px-3 py-1.5 rounded-md transition-colors shadow-sm">
-                                            Tải danh sách
-                                        </button>
                                     </div>
                                     <select id="type-${bId}" disabled onchange="setOrgType('${bId}', this.value)" class="form-input">
-                                        <option value="">Vui lòng bấm "Tải danh sách" bên trên.</option>
+                                        <option value="">Đang tải danh sách...</option>
                                     </select>
                                 </div>
 
                                 <div>
                                     <div class="flex justify-between items-end mb-1.5" id="ind-header-${bId}">
                                         <label class="form-label" style="margin-bottom:0">Ngành, nghề sản xuất, kinh doanh <span class="required-mark">*</span></label>
-                                        <button id="btn-ind-${bId}" onclick="loadGlobalIndustries('${bId}')" type="button" class="bg-blue-600 hover:bg-blue-700 text-white flex items-center text-xs font-semibold px-3 py-1.5 rounded-md transition-colors shadow-sm">
-                                            Tải danh sách
-                                        </button>
                                     </div>
                                     <div class="form-container overflow-hidden flex flex-col" style="padding:0">
                                         <div class="p-2 border-b border-gray-200 bg-white" id="ind-search-box-${bId}">
                                             <input type="text" id="search-ind-${bId}" disabled oninput="searchInd('${bId}', this.value)" placeholder="Tìm kiếm ngành, nghề..." class="w-full bg-gray-50 p-2 rounded text-sm outline-none disabled:opacity-50">
                                         </div>
                                         <div id="ind-list-${bId}" class="h-40 overflow-y-auto p-2 space-y-1 text-sm bg-white">
-                                            <div class="text-center text-gray-400 text-sm mt-12">Vui lòng bấm "Tải danh sách" bên trên.</div>
+                                            <div class="text-center text-gray-400 text-sm mt-12 animate-pulse">Đang tải danh sách...</div>
                                         </div>
                                     </div>
                                 </div>
@@ -1101,6 +1079,7 @@
         if (!isFromDraft) {
             addSocial(bId, 'Facebook');
             addSocial(bId, 'Youtube');
+            loadGlobalIndustries(bId); // tự tải danh sách đối tượng + ngành nghề
         }
         updateAddCompanyBtnVisibility();
     }
@@ -1289,8 +1268,8 @@
 
         document.getElementById(`ind-search-box-${bId}`).style.display = '';
         const indList = document.getElementById(`ind-list-${bId}`);
-        indList.innerHTML = '<div class="text-center text-gray-400 text-sm mt-12">Vui lòng bấm "Tải danh sách" bên trên.</div>';
-        if(globalIndustries.length > 0) renderIndustries(bId);
+        indList.innerHTML = '<div class="text-center text-gray-400 text-sm mt-12 animate-pulse">Đang tải danh sách...</div>';
+        loadGlobalIndustries(bId);
 
         document.getElementById(`soc-list-${bId}`).innerHTML = '';
         companiesState[bId].socialCount = 0;
@@ -1441,6 +1420,8 @@
         }
 
         renderOrgTypeSelect(bId);
+        const searchBox = document.getElementById(`search-ind-${bId}`);
+        if (searchBox) searchBox.disabled = false;
 
         const state = companiesState[bId];
         let displayData = globalIndustries.filter(i => !isOrgType(i));
@@ -1699,6 +1680,7 @@
             document.getElementById(`btn-logo-url-${bId}`).classList.add('hidden');
             
             checkPendingUploads();
+            uploadLogo(bId); // tự lưu ngay sau khi chọn ảnh
         } catch (e) {
             status.innerHTML = `<span class="text-red-600">Có lỗi, thử lại</span>`;
         }
@@ -1820,6 +1802,7 @@
         renderGallery(bId); 
         input.value = ''; 
         checkPendingUploads();
+        uploadGallery(bId); // tự lưu ngay sau khi chọn ảnh
     }
 
     function renderGallery(bId) {
@@ -2267,6 +2250,7 @@
     window.onload = function() {
         if(!localStorage.getItem('yba_form_draft_full')) {
             addCompanyBlock();
+            loadGlobalExpertise(); // tự tải danh sách kinh nghiệm chuyên môn
         } else {
             restoreDraft();
         }
